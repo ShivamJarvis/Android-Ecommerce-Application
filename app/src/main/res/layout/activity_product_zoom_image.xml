@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProductZoomImageActivity">
+
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/product_image_carousel_zoom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+
+        android:layout_weight="1"
+        android:padding="10dp"
+        app:fillColor="#FFF"
+        app:pageColor="#FFF"
+        app:radius="1dp"
+        app:slideInterval="5000"
+        app:strokeColor="#FFF"
+        app:strokeWidth="0dp" />
+
+
+</LinearLayout>
