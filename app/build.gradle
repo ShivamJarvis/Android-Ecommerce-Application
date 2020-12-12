@@ -44,6 +44,8 @@ dependencies {
     implementation 'com.razorpay:checkout:1.6.4'
     implementation 'com.github.FlyingPumba:SimpleRatingBar:v0.1.5'
     implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
+    implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.1'
+
 
 
 

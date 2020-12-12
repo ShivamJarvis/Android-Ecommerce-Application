@@ -15,8 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -30,6 +32,8 @@ import com.parse.ParseUser;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +45,7 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
     ArrayList<String> productId = new ArrayList<>();
     ArrayList<String>  productNames = new ArrayList<String>();
     private ProgressDialog mProgressDialog;
+    private TextView searchEditText;
 
     private ImageView motherboardCat,graphicCardCat,cpuCat,processorCat,ramCat,storageCat,usbCat,mointorCat;
 
@@ -55,7 +60,14 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.logo);
         setTitle("");
-
+        searchEditText = findViewById(R.id.search_edit_text);
+        searchEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToSearchArea = new Intent(HomePageActivity.this,SearchTypeActivity.class);
+                startActivity(goToSearchArea);
+            }
+        });
         if(ParseUser.getCurrentUser()==null){
             Intent goToSignIn = new Intent(HomePageActivity.this,ChooseLoginSignupActivity.class);
             startActivity(goToSignIn);
@@ -165,14 +177,19 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         featuredProductsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> allProducts, ParseException e) {
-                if(allProducts.size()>0 && e==null){
-                    for(ParseObject product:allProducts){
+                if(allProducts!=null) {
 
-                        productId.add(product.getObjectId());
 
-                            }featureRecyclerView.setAdapter(new FeaturedProductsRecyclerAdapter(HomePageActivity.this,productId,HomePageActivity.this));
-                    progressDialog.dismiss();
+                    if (allProducts.size() > 0 && e == null) {
+                        for (ParseObject product : allProducts) {
+
+                            productId.add(product.getObjectId());
+
+                        }
+                        featureRecyclerView.setAdapter(new FeaturedProductsRecyclerAdapter(HomePageActivity.this, productId, HomePageActivity.this));
+                        progressDialog.dismiss();
                     }
+                }
 
                   else{
                     progressDialog.dismiss();
@@ -254,14 +271,17 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         featuredProductsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> allProducts, ParseException e) {
-                if(allProducts.size()>0 && e==null){
-                    for(ParseObject product:allProducts){
+                if(allProducts!=null){
+                    if(allProducts.size()>0 && e==null){
+                        for(ParseObject product:allProducts){
 
-                        productId.add(product.getObjectId());
+                            productId.add(product.getObjectId());
 
-                    }popularRecyclerView.setAdapter(new PopularProductsRecyclerAdapter(productId,HomePageActivity.this,HomePageActivity.this));
+                        }popularRecyclerView.setAdapter(new PopularProductsRecyclerAdapter(productId,HomePageActivity.this,HomePageActivity.this));
 
+                    }
                 }
+
             }
         });
     }
