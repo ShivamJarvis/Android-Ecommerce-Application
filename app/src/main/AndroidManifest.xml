@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TechyTech">
-        <activity android:name=".SellerLoginRegisterActivity"></activity>
+        <activity android:name=".SeeCompleteOrderActivity"></activity>
+        <activity android:name=".SellerMainActivity" />
+        <activity android:name=".SellerLoginRegisterActivity" />
         <activity android:name=".SearchFoundActivity" />
         <activity android:name=".SearchTypeActivity" />
         <activity android:name=".ProductZoomImageActivity" />

@@ -163,6 +163,8 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
                 break;
             case R.id.seller_login_register:
 
+                Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerMainActivity.class);
+                startActivity(sellerLoginRegisterIntent);
                 break;
         }
 

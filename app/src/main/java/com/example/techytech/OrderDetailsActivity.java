@@ -14,23 +14,26 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 public class OrderDetailsActivity extends AppCompatActivity {
-    private String recievedOrderId;
-    private StateProgressBar stateProgressBar;
-    private RecyclerView orderDetailProductRecyclerView;
-    private TextView topOrderIdDisplayText;
-    private TextView paymentMode,deliveryMode,orderAmount,orderDate,deliveryCharges,netAmountPaid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
-        recievedOrderId = getIntent().getStringExtra("orderObjectId");
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.logo);
+        setTitle("");
+
+        StateProgressBar stateProgressBar;
+        RecyclerView orderDetailProductRecyclerView;
+        TextView topOrderIdDisplayText;
+        TextView paymentMode,deliveryMode,orderAmount,orderDate,deliveryCharges,netAmountPaid;
+        String recievedOrderId = getIntent().getStringExtra("orderObjectId");
         topOrderIdDisplayText = findViewById(R.id.order_details_id);
         topOrderIdDisplayText.setText(topOrderIdDisplayText.getText().toString()+recievedOrderId);
         stateProgressBar = findViewById(R.id.order_status_progress_bar);
@@ -44,7 +47,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         orderDetailProductRecyclerView = findViewById(R.id.order_details_recyclerview);
         String state = getIntent().getStringExtra("orderStatus");
-        Toast.makeText(this,state,Toast.LENGTH_SHORT).show();
+
         if(state.equals("Order Placed")){
             stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
         }
@@ -110,13 +113,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
 
                     orderDate.setText(object.getCreatedAt().toString().substring(0,11));
-                    orderDetailProductRecyclerView.setAdapter(new OrderDetailsRecyclerAdapter((ArrayList<String>) object.get("products")));
+                    orderDetailProductRecyclerView.setAdapter(new OrderDetailsRecyclerAdapter(object.getString("products")+""));
 
                 }
             }
         });
-
-
         orderDetailProductRecyclerView.setLayoutManager(new LinearLayoutManager(OrderDetailsActivity.this));
 
     }

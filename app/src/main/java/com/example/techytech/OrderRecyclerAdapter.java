@@ -58,42 +58,35 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecylerViewH
                     if(objects.size()>0){
                             ParseObject object = objects.get(0);
                             holder.getOrderStatus().setText(object.getString("order_status"));
-                            List<String> productList = object.getList("products");
-                            if(productList.size()>0){
-                                if(productList.size()>1){
-                                    holder.getNumberOfProduct().setText(productList.size()-1+" More Product");
-                                }
+                        String productId = object.getString("products");
+                        ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("Product");
+                        productQuery.whereEqualTo("objectId",productId);
+                        productQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> pObjects, ParseException e1) {
+                                if(e1==null && pObjects.size()>0){
 
-                                String productId = productList.get(0);
-                                ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("Product");
-                                productQuery.whereEqualTo("objectId",productId);
-                                productQuery.findInBackground(new FindCallback<ParseObject>() {
-                                    @Override
-                                    public void done(List<ParseObject> pObjects, ParseException e1) {
-                                        if(e1==null && pObjects.size()>0){
-
-                                            ParseObject pOobject = pObjects.get(0);
-                                            if(pOobject.getString("product_name").length()>13){
-                                                holder.getOrderProductName().setText(pOobject.getString("product_name").substring(0,13)+" ...");
-                                            }
-                                            else{
-                                                holder.getOrderProductName().setText(pOobject.getString("product_name"));
-                                            }
-                                            ParseFile parseFile = pOobject.getParseFile("product_image");
-                                            parseFile.getDataInBackground(new GetDataCallback() {
-                                                @Override
-                                                public void done(byte[] data, ParseException e) {
-                                                    if(e==null){
-                                                        Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
-                                                        holder.getOrderProductImage().setImageBitmap(bitmap);
-                                                    }
-                                                }
-                                            });
+                                    ParseObject pOobject = pObjects.get(0);
+                                    if(pOobject.getString("product_name").length()>13){
+                                        holder.getOrderProductName().setText(pOobject.getString("product_name").substring(0,13)+" ...");
+                                    }
+                                    else{
+                                        holder.getOrderProductName().setText(pOobject.getString("product_name"));
+                                    }
+                                    ParseFile parseFile = pOobject.getParseFile("product_image");
+                                    parseFile.getDataInBackground(new GetDataCallback() {
+                                        @Override
+                                        public void done(byte[] data, ParseException e) {
+                                            if(e==null){
+                                                Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
+                                                holder.getOrderProductImage().setImageBitmap(bitmap);
                                             }
                                         }
                                     });
-
+                                }
                             }
+                        });
+
                     }
                 }
             }

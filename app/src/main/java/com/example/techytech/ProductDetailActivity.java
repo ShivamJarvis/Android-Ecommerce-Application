@@ -220,9 +220,22 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                 }
                 break;
             case R.id.buy_btn:
-                Intent buyNow = new Intent(ProductDetailActivity.this,ProceedToCheckoutActivity.class);
-                buyNow.putExtra("buy_now_product",recievedProductId);
-                startActivity(buyNow);
+                ParseQuery<ParseObject> buyNowQuery = ParseQuery.getQuery("Product");
+                buyNowQuery.whereEqualTo("objectId",recievedProductId);
+                buyNowQuery.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if(e==null && objects!=null){
+                            if(objects.size()>0){
+                                Intent buyNow = new Intent(ProductDetailActivity.this,ProceedToCheckoutActivity.class);
+                                buyNow.putExtra("buy_now_product",recievedProductId);
+                                buyNow.putExtra("seller_name",objects.get(0).getString("seller"));
+                                startActivity(buyNow);
+                            }
+                        }
+                    }
+                });
+
 
                 break;
         }
@@ -266,6 +279,11 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
             case R.id.my_cart_item:
                 Intent cartIntent = new Intent(ProductDetailActivity.this,CartActivity.class);
                 startActivity(cartIntent);
+                break;
+            case R.id.seller_login_register:
+
+                Intent sellerLoginRegisterIntent = new Intent(ProductDetailActivity.this,SellerMainActivity.class);
+                startActivity(sellerLoginRegisterIntent);
                 break;
         }
 

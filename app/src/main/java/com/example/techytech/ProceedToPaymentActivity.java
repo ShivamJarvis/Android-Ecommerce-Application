@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProceedToPaymentActivity extends AppCompatActivity implements PaymentResultListener {
-    private String recievedAddressId,recieveBuyBowProduct;
+    private String recievedAddressId,recieveBuyBowProduct,recievedSellerName;
     private TextView addressLinesTextView,stateCityTextView,zipCodeTextView;
     private RadioButton standardDeliveryRB,expressDeliveryRB,cashRB,onlineRB;
     private int totalPrice=0,mTotalPrice=0;
@@ -50,6 +50,7 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
         Checkout.preload(getApplicationContext());
         try{
             recieveBuyBowProduct = getIntent().getStringExtra("buy_now_product");
+            recievedSellerName = getIntent().getStringExtra("seller_name");
 
         }catch (Exception e){
             e.printStackTrace();
@@ -222,30 +223,13 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
         ProgressDialog progressDialog = new ProgressDialog(ProceedToPaymentActivity.this);
         progressDialog.setMessage("Please Wait");
         progressDialog.show();
-        ParseObject newOrder = new ParseObject("Orders");
-        newOrder.put("address_id",recievedAddressId);
-        newOrder.put("username", ParseUser.getCurrentUser().getUsername());
-        if(expressDeliveryRB.isChecked()){
-            newOrder.put("delivery_type","express");
-            deliveryMethod = "express";
-        }
-        else if(standardDeliveryRB.isChecked()){
-            newOrder.put("delivery_type","standard");
-            deliveryMethod = "standard";
-        }
 
-        if(cashRB.isChecked()){
-            newOrder.put("payment_mode","cash");
-            paymentMode = "cash";
-        }
-        else if(onlineRB.isChecked()){
-            newOrder.put("payment_mode","online");
-            paymentMode = "online";
-        }
         if(recieveBuyBowProduct != null) {
             if (recieveBuyBowProduct.equals("") == false) {
                 ArrayList<String> product = new ArrayList<>();
+                ArrayList<String> productSeller = new ArrayList<>();
                 product.add(recieveBuyBowProduct);
+                productSeller.add(recievedSellerName);
                 ParseQuery<ParseObject> buyNowProductQuery = ParseQuery.getQuery("Product");
                 buyNowProductQuery.whereEqualTo("objectId", recieveBuyBowProduct);
                 buyNowProductQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -255,8 +239,30 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                             for (ParseObject object : objects) {
                                 totalPrice = Integer.parseInt(object.getString("our_price"));
                             }
+                            ParseObject newOrder = new ParseObject("Orders");
+                            newOrder.put("address_id",recievedAddressId);
+                            newOrder.put("username", ParseUser.getCurrentUser().getUsername());
+                            if(expressDeliveryRB.isChecked()){
+                                newOrder.put("delivery_type","express");
+                                deliveryMethod = "express";
+                            }
+                            else if(standardDeliveryRB.isChecked()){
+                                newOrder.put("delivery_type","standard");
+                                deliveryMethod = "standard";
+                            }
+
+                            if(cashRB.isChecked()){
+                                newOrder.put("payment_mode","cash");
+                                paymentMode = "cash";
+                            }
+                            else if(onlineRB.isChecked()){
+                                newOrder.put("payment_mode","online");
+                                paymentMode = "online";
+                            }
                             newOrder.put("total_amount", totalPrice);
                             newOrder.put("products", product);
+                            newOrder.put("order_status","Order Placed");
+                            newOrder.put("product_seller", productSeller);
                             newOrder.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -276,46 +282,77 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
             }
         }
         else {
-            ArrayList<String> productsInCart = new ArrayList<>();
+
+
             ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Cart");
             parseQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
             parseQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {
-                    totalPrice = 0;
+
                     if (e == null && objects.size() > 0) {
                         for (ParseObject object : objects) {
-                            productsInCart.add(object.getString("product_id"));
-                            totalPrice += Integer.parseInt(object.getString("product_price"));
-                        }
-                        newOrder.put("total_amount", totalPrice);
-                        newOrder.put("products", productsInCart);
+                            ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("Product");
+                            productQuery.whereEqualTo("objectId",object.getString("product_id"));
+                            productQuery.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> pObjects, ParseException e) {
+                                    if(e==null && pObjects.size()>0){
+                                        totalPrice = Integer.parseInt(pObjects.get(0).getString("our_price"));
 
-                        newOrder.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    ParseQuery<ParseObject> cartQuery = ParseQuery.getQuery("Cart");
-                                    cartQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-                                    cartQuery.findInBackground(new FindCallback<ParseObject>() {
-                                        @Override
-                                        public void done(List<ParseObject> objects, ParseException e) {
-                                            if (e == null && objects.size() > 0) {
-                                                for (ParseObject object : objects) {
-                                                    object.deleteInBackground();
+                                        ParseObject newOrder = new ParseObject("Orders");
+                                        newOrder.put("address_id",recievedAddressId);
+                                        newOrder.put("username", ParseUser.getCurrentUser().getUsername());
+                                        if(expressDeliveryRB.isChecked()){
+                                            newOrder.put("delivery_type","express");
+                                            deliveryMethod = "express";
+                                        }
+                                        else if(standardDeliveryRB.isChecked()){
+                                            newOrder.put("delivery_type","standard");
+                                            deliveryMethod = "standard";
+                                        }
+
+                                        if(cashRB.isChecked()){
+                                            newOrder.put("payment_mode","cash");
+                                            paymentMode = "cash";
+                                        }
+                                        else if(onlineRB.isChecked()){
+                                            newOrder.put("payment_mode","online");
+                                            paymentMode = "online";
+                                        }
+                                        newOrder.put("product_seller",pObjects.get(0).getString("seller"));
+                                        newOrder.put("total_amount", totalPrice);
+                                        newOrder.put("order_status","Order Placed");
+                                        newOrder.put("products", pObjects.get(0).getObjectId());
+                                        newOrder.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    ParseQuery<ParseObject> cartQuery = ParseQuery.getQuery("Cart");
+                                                    cartQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+                                                    cartQuery.findInBackground(new FindCallback<ParseObject>() {
+                                                        @Override
+                                                        public void done(List<ParseObject> objects, ParseException e) {
+                                                            if (e == null && objects.size() > 0) {
+                                                                for (ParseObject object : objects) {
+                                                                    object.deleteInBackground();
+                                                                }
+                                                            }
+                                                        }
+                                                    });
                                                 }
                                             }
-                                        }
-                                    });
+                                        });
+                                    }
 
-                                    Intent intent1 = new Intent(ProceedToPaymentActivity.this, PaymentStatusActivtity.class);
-                                    intent1.putExtra("status", true);
-                                    startActivity(intent1);
-                                    finish();
                                 }
-                            }
-                        });
 
+                            });
+                        }
+                        Intent intent1 = new Intent(ProceedToPaymentActivity.this, PaymentStatusActivtity.class);
+                        intent1.putExtra("status", true);
+                        startActivity(intent1);
+                        finish();
                     }
                 }
             });

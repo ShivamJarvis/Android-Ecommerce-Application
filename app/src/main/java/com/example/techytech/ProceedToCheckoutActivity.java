@@ -33,7 +33,7 @@ public class ProceedToCheckoutActivity extends AppCompatActivity implements Addr
     private TextView addNewAddressTextView,saveAddressesText;
     private Button addNewAddressButton;
     private EditText stateText,cityText,zipCodetext,addressLine1Text,addressLine2Text;
-    private String recievedBuyNowProductId;
+    private String recievedBuyNowProductId,recievedBuyNowSellerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class ProceedToCheckoutActivity extends AppCompatActivity implements Addr
         setTitle("");
         try{
             recievedBuyNowProductId = getIntent().getStringExtra("buy_now_product");
+            recievedBuyNowSellerName = getIntent().getStringExtra("seller_name");
         }catch (Exception e){
 
         }
@@ -152,6 +153,7 @@ public class ProceedToCheckoutActivity extends AppCompatActivity implements Addr
                         Intent intent1 = new Intent(ProceedToCheckoutActivity.this,ProceedToPaymentActivity.class);
                         intent1.putExtra("addressId",addressId);
                         intent1.putExtra("buy_now_product",recievedBuyNowProductId);
+                        intent1.putExtra("seller_name",recievedBuyNowSellerName);
                         startActivity(intent1);
                     }
                     }
@@ -199,6 +201,11 @@ public class ProceedToCheckoutActivity extends AppCompatActivity implements Addr
             case R.id.my_cart_item:
                 Intent cartIntent = new Intent(ProceedToCheckoutActivity.this, CartActivity.class);
                 startActivity(cartIntent);
+                break;
+            case R.id.seller_login_register:
+
+                Intent sellerLoginRegisterIntent = new Intent(ProceedToCheckoutActivity.this,SellerMainActivity.class);
+                startActivity(sellerLoginRegisterIntent);
                 break;
         }
 

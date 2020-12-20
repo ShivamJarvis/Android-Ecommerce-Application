@@ -2,6 +2,7 @@ package com.example.techytech;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +35,7 @@ import java.util.List;
 
 public class CartActivity extends AppCompatActivity implements CartRecyclerAdapter.RemoveCartButtonIsClickedInterface, View.OnClickListener {
     private ArrayList<Bitmap> images;
-    private ArrayList<String> prodNames, prodPrices,prodId;
+    private ArrayList<String> prodId;
     private RecyclerView mRecyclerView;
     private TextView totalMrp,totalDiscount,netAmount,totalMrpTxt,totalDiscTxt,netAmtTxt;
     private int totalAmount=0,totalDisc=0,totalNetAmount=0;
@@ -49,8 +50,6 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
         setTitle("");
         images = new ArrayList<>();
         prodId = new ArrayList<>();
-        prodNames = new ArrayList<>();
-        prodPrices = new ArrayList<>();
         totalMrp = findViewById(R.id.total_mrp);
         continueShoppingBtn = findViewById(R.id.continue_shopping_btn);
         proceedToCheckoutBtn = findViewById(R.id.proceed_checkout_btn);
@@ -67,9 +66,6 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
         updateCartItems();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
-
-
-
 
     }
 
@@ -104,6 +100,10 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
                 startActivity(orderIntent);
                 break;
             case R.id.my_cart_item:
+                break;
+            case R.id.seller_login_register:
+                Intent sellerLoginRegisterIntent = new Intent(CartActivity.this,SellerMainActivity.class);
+                startActivity(sellerLoginRegisterIntent);
                 break;
         }
 
@@ -147,15 +147,7 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
         if(prodId.size()>0){
             prodId.clear();
         }
-        if(prodNames.size()>0){
-            prodNames.clear();
-        }
-        if(prodPrices.size()>0){
-            prodPrices.clear();
-        }
-        if(images.size()>0){
-            images.clear();
-        }
+
 
         if(totalAmount!=0){
             totalAmount = 0;
@@ -186,27 +178,9 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
                                             totalAmount += product.getInt("mrp_price");
                                             totalDisc = (product.getInt("mrp_price") - Integer.parseInt(product.getString("our_price"))) + totalDisc;
                                             totalNetAmount += Integer.parseInt(product.getString("our_price"));
-
-                                            if(product.getString("product_name").length()>25){
-                                                prodNames.add(product.getString("product_name").substring(0,20)+" ...");
-
-                                            }else{
-                                                prodNames.add(product.getString("product_name"));
-                                            }
                                             prodId.add(product.getObjectId());
-                                            prodPrices.add("Rs. "+product.getString("our_price"));
-                                            ParseFile image = product.getParseFile("product_image");
-                                            image.getDataInBackground(new GetDataCallback() {
-                                                @Override
-                                                public void done(byte[] data, ParseException e) {
-                                                    if(e==null){
-                                                        Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
-                                                        images.add(bitmap);
-                                                        mRecyclerView.setAdapter(new CartRecyclerAdapter(images,prodNames,prodPrices,CartActivity.this,prodId));
-                                                    }
-                                                }
-                                            });
                                         }
+                                        mRecyclerView.setAdapter(new CartRecyclerAdapter(CartActivity.this,prodId));
                                         totalDiscount.setText(totalDisc+"");
                                         totalMrp.setText(totalAmount+"");
                                         netAmount.setText(totalNetAmount+"");

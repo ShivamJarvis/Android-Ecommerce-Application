@@ -139,6 +139,11 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
                 Intent cartIntent = new Intent(CategoryDetailActivity.this,CartActivity.class);
                 startActivity(cartIntent);
                 break;
+            case R.id.seller_login_register:
+
+                Intent sellerLoginRegisterIntent = new Intent(CategoryDetailActivity.this,SellerMainActivity.class);
+                startActivity(sellerLoginRegisterIntent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

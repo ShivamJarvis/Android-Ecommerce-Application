@@ -20,12 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailsRecyclerAdapter extends RecyclerView.Adapter<OrderDetailsViewHolder> {
-    private ArrayList<String> productId;
+    private String productId;
     private String orderStatus;
 
-    public OrderDetailsRecyclerAdapter(ArrayList<String> productId) {
+    public OrderDetailsRecyclerAdapter(String productId) {
         this.productId = productId;
-
     }
 
     @NonNull
@@ -40,7 +39,7 @@ public class OrderDetailsRecyclerAdapter extends RecyclerView.Adapter<OrderDetai
     public void onBindViewHolder(@NonNull OrderDetailsViewHolder holder, int position) {
 
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Product");
-        parseQuery.whereEqualTo("objectId",productId.get(position));
+        parseQuery.whereEqualTo("objectId",productId);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -65,6 +64,6 @@ public class OrderDetailsRecyclerAdapter extends RecyclerView.Adapter<OrderDetai
 
     @Override
     public int getItemCount() {
-        return productId.size();
+        return 1;
     }
 }

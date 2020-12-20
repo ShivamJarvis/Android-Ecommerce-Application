@@ -99,6 +99,11 @@ public class OrdersActivity extends AppCompatActivity implements OrderRecyclerAd
                 Intent cartIntent = new Intent(OrdersActivity.this, CartActivity.class);
                 startActivity(cartIntent);
                 break;
+            case R.id.seller_login_register:
+
+                Intent sellerLoginRegisterIntent = new Intent(OrdersActivity.this,SellerMainActivity.class);
+                startActivity(sellerLoginRegisterIntent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

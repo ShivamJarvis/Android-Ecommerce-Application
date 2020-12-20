@@ -267,6 +267,11 @@ public class ProfileActivity extends AppCompatActivity {
                 Intent cartIntent = new Intent(ProfileActivity.this, CartActivity.class);
                 startActivity(cartIntent);
                 break;
+            case R.id.seller_login_register:
+
+                Intent sellerLoginRegisterIntent = new Intent(ProfileActivity.this,SellerMainActivity.class);
+                startActivity(sellerLoginRegisterIntent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
