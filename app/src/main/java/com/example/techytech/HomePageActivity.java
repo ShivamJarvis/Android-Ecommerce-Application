@@ -161,6 +161,9 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
                 Intent cartIntent = new Intent(HomePageActivity.this, CartActivity.class);
                 startActivity(cartIntent);
                 break;
+            case R.id.seller_login_register:
+
+                break;
         }
 
         return super.onOptionsItemSelected(item);

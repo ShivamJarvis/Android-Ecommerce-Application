@@ -20,6 +20,13 @@
 
         />
 
+    <item android:id="@+id/seller_login_register"
+        android:title="Seller Register/Login"
+        android:icon="@drawable/shopping_cart"
+        app:showAsAction="never"
+
+        />
+
     <item android:id="@+id/logout_item"
         android:title="Logout"
         app:showAsAction="never"
