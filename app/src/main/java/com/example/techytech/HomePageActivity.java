@@ -218,7 +218,6 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
 
         switch(v.getId()){
             case R.id.motherboard_cat:
-
                 Intent intent1 = new Intent(HomePageActivity.this,CategoryDetailActivity.class);
                 intent1.putExtra("categoryName","Motherboard");
                 startActivity(intent1);

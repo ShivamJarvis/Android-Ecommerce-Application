@@ -12,6 +12,7 @@ import com.parse.ParseUser;
 
 public class ChooseLoginSignupActivity extends AppCompatActivity implements View.OnClickListener {
     private Button goToLoginButton, goToSignupButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,7 @@ public class ChooseLoginSignupActivity extends AppCompatActivity implements View
                 startActivity(intentLogin);
 
                 break;
+
             case R.id.go_signup_btn:
                 Intent intentSignUp = new Intent(ChooseLoginSignupActivity.this,SignupActivity.class);
                 startActivity(intentSignUp);

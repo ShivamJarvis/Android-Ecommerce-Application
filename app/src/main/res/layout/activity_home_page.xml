@@ -82,14 +82,12 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:scrollbars="none">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
-
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -313,7 +311,6 @@
                android:layout_marginTop="10dp"
                android:scrollbars="none"
                >
-
                <androidx.recyclerview.widget.RecyclerView
                    android:id="@+id/featured_products_recycler_view"
                    android:layout_width="match_parent"
