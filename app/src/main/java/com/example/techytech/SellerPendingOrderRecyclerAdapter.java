@@ -50,6 +50,7 @@ public class SellerPendingOrderRecyclerAdapter extends RecyclerView.Adapter<Sell
                     String seller = userObjects.get(0).getString("seller");
                     ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Orders");
                     parseQuery.whereEqualTo("objectId",orderNoList.get(position));
+                    parseQuery.whereEqualTo("product_seller",seller);
 
                     parseQuery.findInBackground(new FindCallback<ParseObject>() {
                         @Override
@@ -59,6 +60,8 @@ public class SellerPendingOrderRecyclerAdapter extends RecyclerView.Adapter<Sell
                                     if(ParseUser.getCurrentUser().getString("seller").equals(seller)){
                                         holder.getOrderNo().setText("#ORDER : "+(position+1));
                                         holder.getOrderStatus().setText(objects.get(0).getString("order_status"));
+                                        holder.getPendingOrderBtn().setVisibility(View.VISIBLE);
+
                                     }
 
                                 }
@@ -70,7 +73,6 @@ public class SellerPendingOrderRecyclerAdapter extends RecyclerView.Adapter<Sell
                 }
             }
         });
-
         holder.getPendingOrderBtn().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

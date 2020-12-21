@@ -10,6 +10,7 @@
     android:layout_height="match_parent"
     tools:context=".SellerMainActivity"
     android:orientation="vertical"
+    android:background="#f2f2f2"
     >
 
 
@@ -37,14 +38,31 @@
             android:layout_height="wrap_content"
 
             android:orientation="vertical">
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pending Orders"
-                android:layout_margin="8dp"
-                android:textColor="#000"
-                android:textSize="18sp"
-                />
+                android:layout_margin="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Pending Orders"
+                    android:id="@+id/pending_orders_count"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    />
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Refresh List"
+                    android:id="@+id/refresh_button_list"
+
+                    />
+
+            </LinearLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -58,6 +76,129 @@
 
 
     </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="20dp"
+        android:layout_marginHorizontal="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Earnings You Made With Us"
+                android:textSize="20sp"
+                android:layout_margin="6dp"
+                android:textColor="#000"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Total Income"
+                android:textSize="16sp"
+                android:textColor="#000"
+                />
+
+                <TextView
+                    android:id="@+id/seller_income"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Rs. 32000"
+                android:textSize="16sp"
+                android:textColor="#000"
+                />
+
+            </LinearLayout>
+
+
+             <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Total Charges"
+                android:textSize="16sp"
+                android:textColor="#000"
+                />
+
+                <TextView
+                    android:id="@+id/seller_charges"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Rs. 12000"
+                android:textSize="16sp"
+                android:textColor="#000"
+                />
+
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Net Income"
+                android:textSize="16sp"
+                android:textColor="#000"
+                />
+
+                <TextView
+                    android:id="@+id/seller_net_income"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Rs. 12000"
+                android:textSize="16sp"
+                android:textColor="#000"
+                />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="For Adding A Product You Need To Mail Us All The Details Of The Product With Images At 'addProduct@techytech.com' With Your Username."
+        android:layout_margin="20dp"
+
+        android:textAlignment="center"
+        />
 
 
 

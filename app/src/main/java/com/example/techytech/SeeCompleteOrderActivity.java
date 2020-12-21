@@ -2,6 +2,7 @@ package com.example.techytech;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,14 +18,15 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
 public class SeeCompleteOrderActivity extends AppCompatActivity {
 
     private ImageView productImage;
-    private TextView productText,productPrice;
-    private Button updateOrderStatusBtn;
+    private TextView productText,productPrice,customerAllAdress,customerStateCity,customerZipCode,customerName;
+    private Button updateOrderStatusBtn,backToDashboard;
 
 
     @Override
@@ -35,6 +37,11 @@ public class SeeCompleteOrderActivity extends AppCompatActivity {
         productText = findViewById(R.id.see_order_name);
         updateOrderStatusBtn = findViewById(R.id.update_order_status_btn);
         productPrice = findViewById(R.id.see_order_price);
+        backToDashboard = findViewById(R.id.back_to_dashboard);
+        customerAllAdress = findViewById(R.id.customer_all_address);
+        customerStateCity = findViewById(R.id.customer_state_city);
+        customerZipCode = findViewById(R.id.customer_zip_code);
+        customerName = findViewById(R.id.customer_name);
 
         updateButtonText();
         updateOrderStatusBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,9 +71,11 @@ public class SeeCompleteOrderActivity extends AppCompatActivity {
                                     else if(updateOrderStatusBtn.getText().toString().equals("Order Delivered")){
                                         object.put("order_status","Order Delivered");
                                         updateOrderStatusBtn.setVisibility(View.GONE);
+                                        Intent intent = new Intent(SeeCompleteOrderActivity.this,SellerMainActivity.class);
+                                        startActivity(intent);
+                                        finish();
                                     }
                                     object.saveInBackground();
-
 
                                 }
                             }
@@ -75,6 +84,17 @@ public class SeeCompleteOrderActivity extends AppCompatActivity {
                 });
             }
         });
+
+
+        backToDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SeeCompleteOrderActivity.this,SellerMainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     private void updateButtonText(){
@@ -101,6 +121,33 @@ public class SeeCompleteOrderActivity extends AppCompatActivity {
                             else if(object.getString("order_status").equals("Out for Delivery")){
                                 updateOrderStatusBtn.setText("Order Delivered");
                             }
+
+                            ParseQuery<ParseUser> myCustomer = ParseUser.getQuery();
+                            myCustomer.whereEqualTo("username",object.getString("username"));
+                            myCustomer.findInBackground(new FindCallback<ParseUser>() {
+                                @Override
+                                public void done(List<ParseUser> pObjects, ParseException pE) {
+                                    if(pE==null && pObjects!=null)
+                                    {
+                                        customerName.setText(customerName.getText()+pObjects.get(0).getString("name"));
+                                    }
+                                }
+                            });
+
+
+                            ParseQuery<ParseObject> customerAddressQuery = ParseQuery.getQuery("UserAddress");
+                            customerAddressQuery.whereEqualTo("objectId",object.getString("address_id"));
+                            customerAddressQuery.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> userAddressObjects, ParseException userAddressE) {
+                                    if(userAddressE==null && userAddressObjects!=null){
+                                        customerAllAdress.setText(userAddressObjects.get(0).getString("address_line_1")+"\n"+userAddressObjects.get(0).getString("address_line_2"));
+                                        customerStateCity.setText(userAddressObjects.get(0).getString("state")+", "+userAddressObjects.get(0).getString("city"));
+                                        customerZipCode.setText(userAddressObjects.get(0).getString("zip_code"));
+                                    }
+                                }
+                            });
+
 
                             ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("Product");
                             productQuery.whereEqualTo("objectId",object.getString("products"));
