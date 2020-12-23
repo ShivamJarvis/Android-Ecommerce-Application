@@ -119,7 +119,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Rs. 32000"
+                android:text="Rs. 0"
                 android:textSize="16sp"
                 android:textColor="#000"
                 />
@@ -146,7 +146,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Rs. 12000"
+                android:text="Rs. 0"
                 android:textSize="16sp"
                 android:textColor="#000"
                 />
@@ -174,7 +174,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Rs. 12000"
+                android:text="Rs. 0"
                 android:textSize="16sp"
                 android:textColor="#000"
                 />

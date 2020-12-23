@@ -21,7 +21,7 @@
         />
 
     <item android:id="@+id/seller_login_register"
-        android:title="Seller Register/Login"
+        android:title="Seller Account"
         android:icon="@drawable/shopping_cart"
         app:showAsAction="never"
 

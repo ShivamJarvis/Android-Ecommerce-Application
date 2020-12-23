@@ -13,13 +13,13 @@
         android:id="@+id/imageView5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20"
+        android:layout_weight="30"
         app:srcCompat="@drawable/logo" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="80"
+        android:layout_weight="70"
         >
 
         <LinearLayout

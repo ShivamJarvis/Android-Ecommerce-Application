@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -43,16 +45,11 @@ public class SellerLoginRegisterActivity extends AppCompatActivity {
 
 
     private void checkUserIsAlreadyASeller(){
-        ParseQuery<ParseUser> userParseQuery = ParseUser.getQuery();
-        userParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        userParseQuery.whereExists("seller");
-        userParseQuery.whereExists("gst_no");
-        userParseQuery.whereExists("aadhar_no");
-        userParseQuery.whereExists("pan_no");
-
-        userParseQuery.findInBackground(new FindCallback<ParseUser>() {
+        ParseQuery<ParseObject> sellerParseQuery = ParseQuery.getQuery("Seller");
+        sellerParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+        sellerParseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseUser> objects, ParseException e) {
+            public void done(List<ParseObject> objects, ParseException e) {
                 if(objects!=null && e==null){
                     if(objects.size()>0){
                         Intent intentToSellerMainActivity = new Intent(SellerLoginRegisterActivity.this,
@@ -79,28 +76,26 @@ public class SellerLoginRegisterActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
 
-        ParseQuery<ParseUser> userParseQuery = ParseUser.getQuery();
-        userParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        userParseQuery.findInBackground(new FindCallback<ParseUser>() {
+        ParseObject newSeller = new ParseObject("Seller");
+        newSeller.put("seller",businessName.getText().toString());
+        newSeller.put("gst_no",gstNo.getText().toString());
+        newSeller.put("aadhar_no",aadharNo.getText().toString());
+        newSeller.put("pan_no",panNo.getText().toString());
+        newSeller.put("username",ParseUser.getCurrentUser().getUsername());
+        newSeller.saveInBackground(new SaveCallback() {
             @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if(e==null && objects!=null){
-                    if(objects.size()>0){
-                        for(ParseUser myUser : objects){
-                            myUser.put("seller",businessName.getText().toString());
-                            myUser.put("gst_no",gstNo.getText().toString());
-                            myUser.put("aadhar_no",aadharNo.getText().toString());
-                            myUser.put("pan_no",panNo.getText().toString());
-                            myUser.saveInBackground();
-                            Intent intentToSellerMainActivity = new Intent(SellerLoginRegisterActivity.this,
-                                    SellerMainActivity.class);
-                            startActivity(intentToSellerMainActivity);
-                            finish();
-                        }
-                    }
+            public void done(ParseException e) {
+                if(e==null){
+                    Intent intentToSellerMainActivity = new Intent(SellerLoginRegisterActivity.this,
+                            SellerMainActivity.class);
+                    startActivity(intentToSellerMainActivity);
+                    finish();
                 }
             }
         });
+
+
+
     }
 
 }

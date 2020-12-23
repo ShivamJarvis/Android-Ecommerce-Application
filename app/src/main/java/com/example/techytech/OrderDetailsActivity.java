@@ -1,10 +1,14 @@
 package com.example.techytech;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,12 +17,17 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
 
 public class OrderDetailsActivity extends AppCompatActivity {
 
+    private CardView reviewCardView;
+    private TextView paymentMode,deliveryMode,orderAmount,orderDate,deliveryCharges,netAmountPaid;
+    private EditText customerReview;
+    private Button customerReviewSubmitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +41,13 @@ public class OrderDetailsActivity extends AppCompatActivity {
         StateProgressBar stateProgressBar;
         RecyclerView orderDetailProductRecyclerView;
         TextView topOrderIdDisplayText;
-        TextView paymentMode,deliveryMode,orderAmount,orderDate,deliveryCharges,netAmountPaid;
+
         String recievedOrderId = getIntent().getStringExtra("orderObjectId");
+        reviewCardView = findViewById(R.id.review_card);
+        customerReview = findViewById(R.id.customer_review);
+        customerReviewSubmitButton = findViewById(R.id.customer_review_submit_button);
+
+
         topOrderIdDisplayText = findViewById(R.id.order_details_id);
         topOrderIdDisplayText.setText(topOrderIdDisplayText.getText().toString()+recievedOrderId);
         stateProgressBar = findViewById(R.id.order_status_progress_bar);
@@ -63,6 +77,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         }
         else if(state.equals("Order Delivered")){
             stateProgressBar.setAllStatesCompleted(true);
+            reviewCardView.setVisibility(View.VISIBLE);
         }
 
 
@@ -119,6 +134,80 @@ public class OrderDetailsActivity extends AppCompatActivity {
             }
         });
         orderDetailProductRecyclerView.setLayoutManager(new LinearLayoutManager(OrderDetailsActivity.this));
+
+        checkUserAlreadyGiveReview();
+
+        customerReviewSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customerNewReview();
+                checkUserAlreadyGiveReview();
+            }
+        });
+
+    }
+
+
+    private void customerNewReview(){
+        ParseObject newCustomerReview = new ParseObject("Review");
+        ParseQuery<ParseObject> orderQuery = ParseQuery.getQuery("Orders");
+        orderQuery.whereEqualTo("objectId",getIntent().getStringExtra("orderObjectId"));
+        orderQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> orderObjects, ParseException orderException) {
+                if(orderException==null && orderObjects!=null){
+                    ParseObject object = orderObjects.get(0);
+                    newCustomerReview.put("order_id",object.getObjectId());
+                    newCustomerReview.put("username", ParseUser.getCurrentUser().getUsername());
+                    ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("Product");
+                    productQuery.whereEqualTo("objectId",object.getString("products"));
+                    productQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> productObjects, ParseException productException) {
+                            if(productException==null && productObjects!=null){
+                                newCustomerReview.put("product_id",productObjects.get(0).getObjectId());
+                                newCustomerReview.put("review",customerReview.getText().toString());
+                                newCustomerReview.saveInBackground();
+                                Toast.makeText(OrderDetailsActivity.this,"Thanks for giving us your valuable time",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+    private void checkUserAlreadyGiveReview(){
+        ParseQuery<ParseObject> orderQuery = ParseQuery.getQuery("Orders");
+        orderQuery.whereEqualTo("objectId",getIntent().getStringExtra("orderObjectId"));
+        orderQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e==null){
+                    if(objects.size()>0){
+                        if(objects.get(0).getString("order_status").equals("Order Delivered")){
+                            ParseQuery<ParseObject> reviewQuery = ParseQuery.getQuery("Review");
+                            reviewQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+                            reviewQuery.whereEqualTo("order_id",getIntent().getStringExtra("orderObjectId"));
+                            reviewQuery.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> objects, ParseException e) {
+                                    if(e==null && objects.size()>0){
+                                        reviewCardView.setVisibility(View.GONE);
+                                    }
+                                    else {
+                                        reviewCardView.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+
 
     }
 

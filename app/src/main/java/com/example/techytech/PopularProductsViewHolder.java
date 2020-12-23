@@ -8,19 +8,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PopularProductsViewHolder extends RecyclerView.ViewHolder {
-    private ImageView featureProductImage;
-    private TextView featureProductName;
+    private ImageView popularProductImage;
+    private TextView popularProductName;
     public PopularProductsViewHolder(@NonNull View itemView) {
         super(itemView);
-        featureProductImage = itemView.findViewById(R.id.featured_product_image);
-        featureProductName = itemView.findViewById(R.id.featured_product_name);
+        popularProductImage = itemView.findViewById(R.id.popular_product_image);
+        popularProductName = itemView.findViewById(R.id.popular_product_name);
     }
 
-    public ImageView getFeatureProductImage() {
-        return featureProductImage;
+    public ImageView getPopularProductImage() {
+        return popularProductImage;
     }
 
-    public TextView getFeatureProductName() {
-        return featureProductName;
+    public TextView getPopularProductName() {
+        return popularProductName;
     }
 }

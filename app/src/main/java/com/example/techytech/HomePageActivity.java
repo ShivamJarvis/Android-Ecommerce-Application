@@ -43,6 +43,8 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
     private RecyclerView featureRecyclerView,popularRecyclerView;
     ArrayList<Bitmap> productImages = new ArrayList<Bitmap>();
     ArrayList<String> productId = new ArrayList<>();
+    ArrayList<String> popularProductId = new ArrayList<>();
+
     ArrayList<String>  productNames = new ArrayList<String>();
     private ProgressDialog mProgressDialog;
     private TextView searchEditText;
@@ -103,20 +105,15 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         });
 
 
-
-
-        updateFeatureProductList();
-        updatePopularProductList();
-
-
         featureRecyclerView = findViewById(R.id.featured_products_recycler_view);
-
         LinearLayoutManager featureLinearLayoutManager = new LinearLayoutManager(HomePageActivity.this);
         featureLinearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        updateFeatureProductList();
         featureRecyclerView.setLayoutManager(featureLinearLayoutManager);
+
         LinearLayoutManager popularLinearLayoutManager = new LinearLayoutManager(HomePageActivity.this);
         popularLinearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-
+        updatePopularProductList();
         popularRecyclerView.setLayoutManager(popularLinearLayoutManager);
 
     }
@@ -163,7 +160,7 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
                 break;
             case R.id.seller_login_register:
 
-                Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerMainActivity.class);
+                Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerLoginRegisterActivity.class);
                 startActivity(sellerLoginRegisterIntent);
                 break;
         }
@@ -177,7 +174,9 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         progressDialog.show();
         ParseQuery<ParseObject> featuredProductsQuery = new ParseQuery<ParseObject>("Product");
         featuredProductsQuery.whereEqualTo("isFeatured",true);
-
+        if(productId.size()>0){
+            productId.clear();
+        }
 
         featuredProductsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -271,6 +270,10 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         ParseQuery<ParseObject> featuredProductsQuery = new ParseQuery<ParseObject>("Product");
         featuredProductsQuery.whereEqualTo("isPopular",true);
 
+        if(productId.size()>0){
+            productId.clear();
+        }
+
 
         featuredProductsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -279,10 +282,10 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
                     if(allProducts.size()>0 && e==null){
                         for(ParseObject product:allProducts){
 
-                            productId.add(product.getObjectId());
+                            popularProductId.add(product.getObjectId());
 
-                        }popularRecyclerView.setAdapter(new PopularProductsRecyclerAdapter(productId,HomePageActivity.this,HomePageActivity.this));
-
+                        }
+                        popularRecyclerView.setAdapter(new PopularProductsRecyclerAdapter(popularProductId,HomePageActivity.this,HomePageActivity.this));
                     }
                 }
 

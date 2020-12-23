@@ -237,6 +237,8 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                     public void done(List<ParseObject> objects, ParseException e) {
                         if (e == null && objects.size() > 0) {
                             for (ParseObject object : objects) {
+                                object.put("stock",(object.getNumber("stock").intValue()-1));
+                                object.saveInBackground();
                                 totalPrice = Integer.parseInt(object.getString("our_price"));
                             }
                             ParseObject newOrder = new ParseObject("Orders");
@@ -299,7 +301,8 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                                 public void done(List<ParseObject> pObjects, ParseException e) {
                                     if(e==null && pObjects.size()>0){
                                         totalPrice = Integer.parseInt(pObjects.get(0).getString("our_price"));
-
+                                        pObjects.get(0).put("stock",(pObjects.get(0).getNumber("stock").intValue()-1));
+                                        pObjects.get(0).saveInBackground();
                                         ParseObject newOrder = new ParseObject("Orders");
                                         newOrder.put("address_id",recievedAddressId);
                                         newOrder.put("username", ParseUser.getCurrentUser().getUsername());

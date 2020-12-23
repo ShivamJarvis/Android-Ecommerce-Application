@@ -41,11 +41,11 @@ public class SellerPendingOrderRecyclerAdapter extends RecyclerView.Adapter<Sell
     @Override
     public void onBindViewHolder(@NonNull SellerPendingOrderViewHolder holder, int position) {
 
-        ParseQuery<ParseUser> userParseQuery = ParseUser.getQuery();
-        userParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        userParseQuery.findInBackground(new FindCallback<ParseUser>() {
+        ParseQuery<ParseObject> sellerParseQuery = ParseQuery.getQuery("Seller");
+        sellerParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+        sellerParseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseUser> userObjects, ParseException userError) {
+            public void done(List<ParseObject> userObjects, ParseException userError) {
                 if(userError==null && userObjects!=null){
                     String seller = userObjects.get(0).getString("seller");
                     ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Orders");
@@ -57,12 +57,12 @@ public class SellerPendingOrderRecyclerAdapter extends RecyclerView.Adapter<Sell
                         public void done(List<ParseObject> objects, ParseException e) {
                             if(e==null && objects!=null){
                                 if(objects.size()>0){
-                                    if(ParseUser.getCurrentUser().getString("seller").equals(seller)){
+
                                         holder.getOrderNo().setText("#ORDER : "+(position+1));
                                         holder.getOrderStatus().setText(objects.get(0).getString("order_status"));
                                         holder.getPendingOrderBtn().setVisibility(View.VISIBLE);
 
-                                    }
+
 
                                 }
                             }

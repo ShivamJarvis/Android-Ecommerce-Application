@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,11 +37,14 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private CarouselView carouselView;
     private String recievedProductId;
     public ArrayList<Bitmap> pImages;
-    private TextView productNameTextView,productDetailName,productPrice;
+    private TextView productNameTextView,productDetailName,productPrice,noReview;
     private TextView productDetailMrp,productDetailOurPrice,productSeller,productDesc;
     private Button buyBtn,addCartBtn;
     private SimpleRatingBar simpleRatingBar;
     private CarouselView carouseClicklView;
+    private ListView reviewListView;
+    private ArrayAdapter reviewArrayAdapter;
+    private ArrayList<String> reviewArrayList;
 
 
     enum State{
@@ -56,7 +61,10 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setIcon(R.drawable.logo);
         setTitle("");
         carouseClicklView = findViewById(R.id.product_image_carousel);
-
+        reviewListView = findViewById(R.id.review_list_view);
+        reviewArrayList = new ArrayList<>();
+        reviewArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,reviewArrayList);
+        noReview = findViewById(R.id.no_review);
         state = State.ADD;
         buyBtn = findViewById(R.id.buy_btn);
         addCartBtn = findViewById(R.id.add_cart);
@@ -73,48 +81,9 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         productSeller = findViewById(R.id.product_detail_seller_name);
         productDesc = findViewById(R.id.product_detail_desc);
 
-        ParseQuery<ParseObject> isInCartQuery = ParseQuery.getQuery("Cart");
-        isInCartQuery.whereEqualTo("product_id",recievedProductId);
-        isInCartQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        isInCartQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(e==null && objects.size()>0){
-                    state = State.Go;
-                    addCartBtn.setText("Go To Cart");
-                }
-            }
-        });
 
-
-
-        ParseQuery<ParseObject> productDetailQuery = ParseQuery.getQuery("Product");
-        productDetailQuery.whereEqualTo("objectId",recievedProductId);
-
-        productDetailQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(e==null && objects.size() > 0){
-                    for(ParseObject mObject:objects){
-                        productNameTextView.setText(mObject.getString("product_name"));
-                        productDetailName.setText(mObject.getString("product_name"));
-                        productPrice.setText("Rs. "+ mObject.getString("our_price"));
-                        productDetailMrp.setText("Rs. "+mObject.get("mrp_price"));
-                        productDetailOurPrice.setText("Rs. "+mObject.get("our_price"));
-                        productSeller.setText(mObject.getString("seller"));
-                        productDesc.setText(mObject.getString("description"));
-                        simpleRatingBar.setRating(Float.parseFloat(mObject.getString("rating")));
-                    }
-                }
-            }
-        });
-
-
-
-
-
-
-
+        checkProductIsAlreadyInCart();
+        showProductDetails();
 
 
         ParseQuery<ParseObject> parseQueryForImages = ParseQuery.getQuery("ProductImages");
@@ -145,22 +114,13 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
 
                                     }
                                 });
-
-
                             }
                         });
                         carouselView.setPageCount(imageObjects.size());
-
-
-
                     }
-
-
-
                 }
             }
         });
-
 
         carouseClicklView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +131,49 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
             }
         });
 
+        showCustomerReview();
 
+    }
+
+
+    private void checkProductIsAlreadyInCart(){
+        ParseQuery<ParseObject> isInCartQuery = ParseQuery.getQuery("Cart");
+        isInCartQuery.whereEqualTo("product_id",recievedProductId);
+        isInCartQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+        isInCartQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e==null && objects.size()>0){
+                    state = State.Go;
+                    addCartBtn.setText("Go To Cart");
+                }
+            }
+        });
+
+    }
+
+
+    private void showProductDetails(){
+        ParseQuery<ParseObject> productDetailQuery = ParseQuery.getQuery("Product");
+        productDetailQuery.whereEqualTo("objectId",recievedProductId);
+
+        productDetailQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e==null && objects.size() > 0){
+                    for(ParseObject mObject:objects){
+                        productNameTextView.setText(mObject.getString("product_name"));
+                        productDetailName.setText(mObject.getString("product_name"));
+                        productPrice.setText("Rs. "+ mObject.getString("our_price"));
+                        productDetailMrp.setText("Rs. "+mObject.get("mrp_price"));
+                        productDetailOurPrice.setText("Rs. "+mObject.get("our_price"));
+                        productSeller.setText(mObject.getString("seller"));
+                        productDesc.setText(mObject.getString("description"));
+                        simpleRatingBar.setRating(Float.parseFloat(mObject.getString("rating")));
+                    }
+                }
+            }
+        });
     }
 
 
@@ -290,5 +292,27 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void showCustomerReview(){
+        ParseQuery<ParseObject> reviewQuery = ParseQuery.getQuery("Review");
+        reviewQuery.whereEqualTo("product_id",recievedProductId);
+        reviewQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e==null){
+                    if(objects.size()>0){
+                        for(ParseObject parseObject : objects){
+                            reviewArrayList.add(parseObject.getString("review"));
+                        }
+                        reviewListView.setAdapter(reviewArrayAdapter);
+                    }
+                    else{
+                        reviewListView.setVisibility(View.GONE);
+                        noReview.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
 
 }

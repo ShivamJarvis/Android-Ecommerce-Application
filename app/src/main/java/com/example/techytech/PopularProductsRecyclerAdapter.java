@@ -38,7 +38,7 @@ public class PopularProductsRecyclerAdapter extends RecyclerView.Adapter<Popular
     @Override
     public PopularProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.featured_product_view_holder, parent, false);
+        View view = layoutInflater.inflate(R.layout.popular_products_view_holder, parent, false);
         return new PopularProductsViewHolder(view);
     }
 
@@ -46,6 +46,7 @@ public class PopularProductsRecyclerAdapter extends RecyclerView.Adapter<Popular
     public void onBindViewHolder(@NonNull PopularProductsViewHolder holder, int position) {
         ParseQuery<ParseObject> productsQuery = ParseQuery.getQuery("Product");
         productsQuery.whereEqualTo("objectId", productId.get(position));
+        productsQuery.whereEqualTo("isPopular",true);
         productsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -53,20 +54,19 @@ public class PopularProductsRecyclerAdapter extends RecyclerView.Adapter<Popular
                     for (ParseObject parseObject : objects) {
 
                         if (parseObject.getString("product_name").length() > 20) {
-                            holder.getFeatureProductName().setText(parseObject.getString("product_name").substring(0, 16) + " ...");
+                            holder.getPopularProductName().setText(parseObject.getString("product_name").substring(0, 16) + " ...");
                         } else {
-                            holder.getFeatureProductName().setText(parseObject.getString("product_name"));
+                            holder.getPopularProductName().setText(parseObject.getString("product_name"));
                         }
                         ParseFile parseFile = parseObject.getParseFile("product_image");
                         parseFile.getDataInBackground(new GetDataCallback() {
                             @Override
                             public void done(byte[] data, ParseException e) {
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                holder.getFeatureProductImage().setImageBitmap(bitmap);
+                                holder.getPopularProductImage().setImageBitmap(bitmap);
 
                             }
                         });
-
                     }
                 }
             }

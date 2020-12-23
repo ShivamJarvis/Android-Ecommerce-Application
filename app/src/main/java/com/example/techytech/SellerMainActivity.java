@@ -40,11 +40,11 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
 
         calculateSellerMonthlyIncome();
         objectsIds = new ArrayList<>();
-        ParseQuery<ParseUser> parseUserParseQuery = ParseUser.getQuery();
-        parseUserParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        parseUserParseQuery.findInBackground(new FindCallback<ParseUser>() {
+        ParseQuery<ParseObject> parseSellerParseQuery = ParseQuery.getQuery("Seller");
+        parseSellerParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+        parseSellerParseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseUser> objects, ParseException e) {
+            public void done(List<ParseObject> objects, ParseException e) {
                 if(e==null && objects!=null){
                     if(objects.size()>0){
                         sellerWelcomeText.setText(sellerWelcomeText.getText()+objects.get(0).getString("seller"));
@@ -64,6 +64,9 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
                 if(adapter!=null){
                     getObjectsIds();
                     adapter.notifyDataSetChanged();
+                }
+                else{
+                    getObjectsIds();
                 }
 
 
@@ -107,15 +110,16 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
         Intent intent = new Intent(SellerMainActivity.this,SeeCompleteOrderActivity.class);
         intent.putExtra("order_id",orderNo);
         startActivity(intent);
+        finish();
     }
 
 
     private void calculateSellerMonthlyIncome(){
-        ParseQuery<ParseUser> userParseQuery = ParseUser.getQuery();
-        userParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        userParseQuery.findInBackground(new FindCallback<ParseUser>() {
+        ParseQuery<ParseObject> sellerParseQuery = ParseQuery.getQuery("Seller");
+        sellerParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+        sellerParseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseUser> userObjects, ParseException userE) {
+            public void done(List<ParseObject> userObjects, ParseException userE) {
                 if(userE==null && userObjects!=null){
                     if(userObjects.size()>0){
                         String userSellerName = userObjects.get(0).getString("seller");
