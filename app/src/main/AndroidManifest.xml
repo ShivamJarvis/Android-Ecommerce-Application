@@ -44,6 +44,7 @@
         <activity android:name="com.codebrew.techdeal.CartActivity"
             android:screenOrientation="portrait"/>
         <activity android:name="com.codebrew.techdeal.HomePageActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name="com.codebrew.techdeal.SignupActivity"
             android:screenOrientation="portrait"/>

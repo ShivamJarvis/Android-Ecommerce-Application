@@ -1,7 +1,10 @@
 package com.codebrew.techdeal;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,9 +15,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -34,6 +40,10 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
     ArrayList<Bitmap> productImages = new ArrayList<Bitmap>();
     ArrayList<String> productId = new ArrayList<>();
     ArrayList<String> popularProductId = new ArrayList<>();
+    private Toolbar toolbar;
+    private NavigationView nav;
+    private ActionBarDrawerToggle toggle;
+    private DrawerLayout drawerLayout;
 
     ArrayList<String>  productNames = new ArrayList<String>();
     private ProgressDialog mProgressDialog;
@@ -49,9 +59,18 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("Please Wait");
         mProgressDialog.show();
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        nav = findViewById(R.id.nav_menu);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         searchEditText = findViewById(R.id.search_edit_text);
         searchEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +125,48 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         updatePopularProductList();
         popularRecyclerView.setLayoutManager(popularLinearLayoutManager);
 
+        nav.bringToFront();
+        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+
+                    case R.id.menu_logout_item:
+                        ParseUser.logOutInBackground(new LogOutCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if(e==null){
+                                    Intent intent = new Intent(HomePageActivity.this,ChooseLoginSignupActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case R.id.menu_profile_item:
+                        Intent profileIntent = new Intent(HomePageActivity.this,ProfileActivity.class);
+                        startActivity(profileIntent);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case R.id.menu_order_item:
+                        Intent orderIntent = new Intent(HomePageActivity.this,OrdersActivity.class);
+                        startActivity(orderIntent);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                    case R.id.menu_seller_login_register:
+                        Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerLoginRegisterActivity.class);
+                        startActivity(sellerLoginRegisterIntent);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                }
+                return false;
+            }
+        });
+
+
     }
 
 
@@ -117,44 +178,18 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_home_menu,menu);
+        getMenuInflater().inflate(R.menu.home_page_cart_menu,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.logout_item:
-                ParseUser.logOutInBackground(new LogOutCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e==null){
-                            Intent intent = new Intent(HomePageActivity.this,ChooseLoginSignupActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                });
-                break;
-            case R.id.my_profile_item:
-                Intent profileIntent = new Intent(HomePageActivity.this,ProfileActivity.class);
-                startActivity(profileIntent);
-                break;
-            case R.id.my_order_item:
-                Intent orderIntent = new Intent(HomePageActivity.this,OrdersActivity.class);
-                startActivity(orderIntent);
-                break;
             case R.id.my_cart_item:
-                Intent cartIntent = new Intent(HomePageActivity.this, CartActivity.class);
+                Intent cartIntent = new Intent(HomePageActivity.this,CartActivity.class);
                 startActivity(cartIntent);
                 break;
-            case R.id.seller_login_register:
-
-                Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerLoginRegisterActivity.class);
-                startActivity(sellerLoginRegisterIntent);
-                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
