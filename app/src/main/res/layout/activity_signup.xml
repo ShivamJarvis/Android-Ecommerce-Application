@@ -3,66 +3,124 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:gravity="center"
     android:layout_height="match_parent"
     tools:context=".SignupActivity"
+    android:background="@drawable/back2"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView4"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
 
-        app:srcCompat="@drawable/logo" />
-
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="8dp"
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="70"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/username_register"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="15dp"
-            android:hint="Enter Username"
-            android:inputType="textPersonName"
-
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-        <EditText
-            android:id="@+id/name_register"
+            android:text="Welcome"
+            android:textSize="30sp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="Enter Name"
-            android:inputType="textPersonName"
-           />
+            android:text="All fields are necessary to fill*"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
 
-        <EditText
-            android:id="@+id/email_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="Enter Email"
-            android:inputType="textPersonName"
             />
 
-        <EditText
-            android:id="@+id/pass_register"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:layout_marginHorizontal="30dp"
             android:layout_marginTop="20dp"
-            android:hint="Enter Password"
-            android:inputType="textPassword"
-           />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:paddingHorizontal="20dp">
+            <EditText
+                android:id="@+id/username_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:paddingHorizontal="20dp">
+                <EditText
+                    android:id="@+id/name_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:hint="Name"
+                    android:inputType="textPersonName"
+                    />
+
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:paddingHorizontal="20dp">
+            <EditText
+                android:id="@+id/email_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Email"
+                android:inputType="textPersonName"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:paddingHorizontal="20dp">
+            <EditText
+                android:id="@+id/pass_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="20dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
             android:id="@+id/register_btn"
@@ -71,7 +129,7 @@
             android:text="Register"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="30dp"
-            app:cornerRadius="20dp"
+            app:cornerRadius="5dp"
            />
 
         <TextView
@@ -79,10 +137,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:text="By Clicking on Register you must agree with our terms and conditions."
             android:textAlignment="center"
+            android:layout_marginBottom="30dp"
 
             />
     </LinearLayout>
+    </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
 </LinearLayout>

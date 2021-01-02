@@ -18,11 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:elevation="15dp">
+        app:cardElevation="10dp"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -30,16 +32,17 @@
                 android:text="Saved Addresses"
                 android:id="@+id/saved_address_text"
                 android:textSize="20sp"
-                android:layout_margin="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="#000"
                 android:gravity="center_horizontal"
 
                 />
 
 
-        </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+
+
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -48,13 +51,16 @@
         android:layout_margin="10dp"
         android:id="@+id/address_recycler_view">
     </androidx.recyclerview.widget.RecyclerView>
-
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:elevation="15dp">
+        app:cardElevation="10dp"
+        android:layout_marginHorizontal="20dp"
+        app:cardCornerRadius="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,80 +73,107 @@
                 android:text="Add New Address"
                 android:id="@+id/to_be_change_add_address"
                 android:gravity="center_horizontal"
-                android:layout_margin="30dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
                 android:textSize="20sp"
                 android:textColor="#000"
                 />
 
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginRight="35dp"
-                android:background="?android:attr/listDivider" />
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/address_line_1"
-                    android:hint="Address Line 1"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="20dp"
-                    />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:id="@+id/address_line_2"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                    android:layout_height="wrap_content"
-                    android:hint="Address Line 2"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="20dp"
-                    />
-                <EditText
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/address_line_1"
+                        android:hint="Address Line 1"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/state"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/address_line_2"
 
-                    android:hint="State"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="20dp"
-                    />
-                <EditText
+                        android:layout_height="wrap_content"
+                        android:hint="Address Line 2"
+
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+               <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="City"
-                    android:id="@+id/city"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="10dp">
+                   <EditText
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/state"
+                       android:hint="State"
+                       />
 
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="20dp"
-                    />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
+               <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ZIP Code"
-                    android:id="@+id/zip_code"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="10dp">
+                   <EditText
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:hint="City"
+                       android:id="@+id/city"
 
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="20dp"
-                    />
+                       />
 
+                </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="ZIP Code"
+                        android:id="@+id/zip_code"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
                 android:id="@+id/proceed_payment_btn"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:text="Proceed to Payment"
               />
 

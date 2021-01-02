@@ -49,6 +49,7 @@
         <activity android:name="com.codebrew.techdeal.SignupActivity"
             android:screenOrientation="portrait"/>
         <activity android:name="com.codebrew.techdeal.LoginActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"/>
         <activity android:name="com.codebrew.techdeal.ChooseLoginSignupActivity"
             android:screenOrientation="portrait"/>
