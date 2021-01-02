@@ -174,6 +174,7 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
                                         totalDiscount.setText(totalDisc+"");
                                         totalMrp.setText(totalAmount+"");
                                         netAmount.setText(totalNetAmount+"");
+                                        progressDialog.dismiss();
 
                                     }
                                 }
@@ -192,7 +193,11 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
                         totalDiscTxt.setText("");
                         totalMrpTxt.setText("");
                         netAmtTxt.setText("");
+                        progressDialog.dismiss();
                     }
+                    progressDialog.dismiss();
+                }
+                else{
                     progressDialog.dismiss();
                 }
             }
