@@ -13,16 +13,16 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title=""
+            app:title="TechDeal"
+            app:titleTextColor="@android:color/white"
             android:background="@color/primaryColor"
-            app:logo="@drawable/logo"/>
+            />
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -36,7 +36,7 @@
 
 
     <ScrollView
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="55dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >

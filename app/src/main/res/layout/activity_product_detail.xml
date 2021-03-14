@@ -62,17 +62,17 @@
             />
 
         <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/product_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srb_starSize="25dp"
+
             android:layout_marginLeft="10dp"
-            app:srb_numberOfStars="5"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:id="@+id/product_rating"
-            app:srb_stepSize="0.1"
-
-            />
+            app:srb_numberOfStars="5"
+            app:srb_starSize="25dp"
+            android:clickable="false"
+            app:srb_stepSize="0.1" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,6 +85,7 @@
                 android:id="@+id/buy_btn"
                 android:layout_height="wrap_content"
                 android:text="Buy Now"
+                android:textColor="@android:color/white"
                 android:layout_margin="5dp"
                 android:layout_marginTop="5dp"
                 />
@@ -93,6 +94,7 @@
                 android:layout_width="0dp"
                 android:id="@+id/add_cart"
                 android:layout_weight="1"
+                android:textColor="@android:color/white"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Add to cart"

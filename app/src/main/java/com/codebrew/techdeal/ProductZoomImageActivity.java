@@ -25,6 +25,7 @@ public class ProductZoomImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_zoom_image);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         carouselView = findViewById(R.id.product_image_carousel_zoom);
         recievedProductId = getIntent().getStringExtra("productId");
 
@@ -56,5 +57,11 @@ public class ProductZoomImageActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

@@ -40,9 +40,7 @@ public class ProceedToCheckoutActivity extends AppCompatActivity implements Addr
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_proceed_to_checkout);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         try{
             recievedBuyNowProductId = getIntent().getStringExtra("buy_now_product");
             recievedBuyNowSellerName = getIntent().getStringExtra("seller_name");
@@ -212,4 +210,9 @@ public class ProceedToCheckoutActivity extends AppCompatActivity implements Addr
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

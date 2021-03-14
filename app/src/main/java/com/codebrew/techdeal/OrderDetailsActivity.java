@@ -34,10 +34,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         StateProgressBar stateProgressBar;
         RecyclerView orderDetailProductRecyclerView;
         TextView topOrderIdDisplayText;
@@ -206,9 +203,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

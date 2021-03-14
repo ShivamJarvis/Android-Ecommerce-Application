@@ -33,6 +33,7 @@ public class SeeCompleteOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_complete_order);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         productImage = findViewById(R.id.see_order_image);
         productText = findViewById(R.id.see_order_name);
         updateOrderStatusBtn = findViewById(R.id.update_order_status_btn);
@@ -184,4 +185,9 @@ public class SeeCompleteOrderActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

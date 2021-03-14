@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -25,19 +26,23 @@ import java.util.List;
 
 public class SellerMainActivity extends AppCompatActivity implements SellerPendingOrderRecyclerAdapter.SeeOrderButtonIsClickedInterface {
     private TextView sellerWelcomeText,sellerIncome,sellerCharges,sellerNetIncome;
-    private RecyclerView pendingOrdersRecyclerView;
+    private RecyclerView pendingOrdersRecyclerView,inventoryRecyclerView;
     private Button refreshButtonList;
-    private ArrayList<String> objectsIds;
+    private ArrayList<String> objectsIds, inventoryObjectIds;
+    private String sellerName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_main);
+
         sellerWelcomeText = findViewById(R.id.seller_welcome_text);
         sellerIncome = findViewById(R.id.seller_income);
         sellerCharges = findViewById(R.id.seller_charges);
         sellerNetIncome = findViewById(R.id.seller_net_income);
         refreshButtonList = findViewById(R.id.refresh_button_list);
-
+        inventoryRecyclerView = findViewById(R.id.inventory_recycler_view);
+        sellerName = "";
+        getInventoryObjectIds();
         calculateSellerMonthlyIncome();
         objectsIds = new ArrayList<>();
         ParseQuery<ParseObject> parseSellerParseQuery = ParseQuery.getQuery("Seller");
@@ -47,6 +52,7 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e==null && objects!=null){
                     if(objects.size()>0){
+                        sellerName = objects.get(0).getString("seller");
                         sellerWelcomeText.setText(sellerWelcomeText.getText()+objects.get(0).getString("seller"));
 
                     }
@@ -76,6 +82,27 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
 
     }
 
+    private void getInventoryObjectIds() {
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Product");
+//        parseQuery.whereEqualTo("seller",sellerName);
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(objects!=null && e == null)
+                {
+                    for(ParseObject object : objects)
+                    {
+                        inventoryObjectIds.add(object.getObjectId());
+                    }
+                    inventoryRecyclerView.setAdapter(new InventoryRecyclerAdapter(inventoryObjectIds));
+                    inventoryRecyclerView.setLayoutManager(new LinearLayoutManager(SellerMainActivity.this));
+
+                }
+            }
+        });
+
+    }
+
 
     private void getObjectsIds(){
         ProgressDialog progressDialog = new ProgressDialog(SellerMainActivity.this);
@@ -86,6 +113,8 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
         }
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Orders");
         parseQuery.whereNotEqualTo("order_status","Order Delivered");
+        parseQuery.whereEqualTo("product_seller",sellerName);
+        Toast.makeText(SellerMainActivity.this,sellerName,Toast.LENGTH_SHORT).show();
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -154,8 +183,9 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
         });
     }
 
-
-
-
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

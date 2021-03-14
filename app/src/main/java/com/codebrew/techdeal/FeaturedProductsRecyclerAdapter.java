@@ -38,9 +38,7 @@ public class FeaturedProductsRecyclerAdapter extends RecyclerView.Adapter<Featur
     public FeaturedProductsRecyclerAdapter(Context context,  ArrayList<String> productId, ProductIsClickedInterface productIsClickedInterface) {
         this.context = context;
         this.productIsClickedInterface = productIsClickedInterface;
-
         this.productId = productId;
-
     }
 
     @NonNull

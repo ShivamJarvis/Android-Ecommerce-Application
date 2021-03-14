@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.parse.ParseUser;
@@ -15,10 +17,12 @@ public class ChooseLoginSignupActivity extends AppCompatActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getSupportActionBar().hide();
         setContentView(R.layout.activity_choose_login_signup);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
         goToLoginButton = findViewById(R.id.go_login_btn);
         goToSignupButton = findViewById(R.id.go_signup_btn);
         goToLoginButton.setOnClickListener(ChooseLoginSignupActivity.this);
@@ -39,15 +43,12 @@ public class ChooseLoginSignupActivity extends AppCompatActivity implements View
             case R.id.go_login_btn:
                 Intent intentLogin = new Intent(ChooseLoginSignupActivity.this,LoginActivity.class);
                 startActivity(intentLogin);
-
                 break;
 
             case R.id.go_signup_btn:
                 Intent intentSignUp = new Intent(ChooseLoginSignupActivity.this,SignupActivity.class);
                 startActivity(intentSignUp);
-
                 break;
-
         }
 
     }

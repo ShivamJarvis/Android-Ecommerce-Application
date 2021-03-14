@@ -30,9 +30,7 @@ public class SearchTypeActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_type);
         searchEditText = findViewById(R.id.main_search_box);
-
-
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listView = findViewById(R.id.search_list_view);
         arrayList = new ArrayList<>();
         arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,arrayList);
@@ -116,5 +114,11 @@ public class SearchTypeActivity extends AppCompatActivity implements View.OnClic
         Intent intent = new Intent(SearchTypeActivity.this,SearchFoundActivity.class);
         intent.putExtra("searchKey",arrayList.get(position));
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

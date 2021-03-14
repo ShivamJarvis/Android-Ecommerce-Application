@@ -36,9 +36,7 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         prodId = new ArrayList<>();
         totalMrp = findViewById(R.id.total_mrp);
         Button continueShoppingBtn = findViewById(R.id.continue_shopping_btn);
@@ -221,5 +219,11 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

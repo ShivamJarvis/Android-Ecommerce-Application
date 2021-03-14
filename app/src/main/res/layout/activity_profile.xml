@@ -1,189 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFEB3B"
-    >
+    tools:context=".ProfileActivity"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#00c1d6"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/user"
+            android:layout_centerVertical="true"
+            />
+        
+        <TextView
+            android:id="@+id/my_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shivam Gupta"
+            android:textSize="20sp"
+            android:layout_toRightOf="@+id/profile_image"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shivam"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/profile_image"
+            android:layout_below="@+id/my_name"
+            android:layout_marginLeft="10dp"
+            />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_marginTop="-100dp"
+        android:padding="20dp">
 
-        android:orientation="vertical"
-        tools:context=".ProfileActivity">
-
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/user_customer"
-            android:layout_width="match_parent"
-            android:elevation="50dp"
-            android:layout_height="100dp"
-            app:civ_circle_background_color="#fff"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="50dp"
-
-
-            android:src="@drawable/my_user"
-            app:civ_border_color="#FFF"
-            app:civ_border_width="1dp" />
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="60dp"
-
-
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="125dp"
             android:layout_weight="1"
-            app:cardCornerRadius="70dp">
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="#00c1d6"
+            app:cardElevation="10dp"
+            >
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="100dp"
-                android:background="#AFB42B"
+                android:padding="5dp">
 
-                android:paddingTop="40dp"
-                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/cart_small_icon"
+                    android:layout_marginVertical="10dp"
+                    android:layout_centerHorizontal="true"
+                    />
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/order_count"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name : "
-                        android:textColor="#000"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/my_name"
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="24sp" />
-
-                    <ImageView
-                        android:id="@+id/my_name_pencil"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:visibility="visible"
-                        app:srcCompat="@drawable/my_editing_pencil" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:text="45"
+                    android:textSize="20sp"
+                    android:layout_centerInParent="true"
+                    />
+                <TextView
+                    android:id="@+id/order_success"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Username : "
-                        android:textColor="#000"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/my_username"
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="24sp" />
-
-                </LinearLayout>
+                    android:text="Total Orders"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/order_count"
+                    android:layout_centerInParent="true"
+                    />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            </RelativeLayout>
+
+
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="125dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="#00c1d6"
+            app:cardElevation="10dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="10dp"
+                    android:src="@drawable/on_process_orders"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <TextView
+                    android:id="@+id/on_procress_orders"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email : "
-                        android:textColor="#000"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/my_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="24sp" />
-
-                    <ImageView
-                        android:id="@+id/my_email_pencil"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:visibility="visible"
-                        app:srcCompat="@drawable/my_editing_pencil" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:text="5"
+                    android:textSize="20sp"
+                    android:layout_centerInParent="true"
+                    />
+                <TextView
+                    android:id="@+id/process_orders"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Customer Since : "
-                        android:textColor="#000"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/customer_since"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="24sp" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/update_profile_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-
-                    android:layout_marginTop="50dp"
-                    android:layout_marginRight="50dp"
-                    android:text="Update Profile" />
+                    android:text="On Process Orders"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/on_procress_orders"
+                    android:layout_centerInParent="true"
+                    />
 
 
-                <Button
-                    android:id="@+id/update_password_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="50dp"
-                    android:text="Change Password" />
+            </RelativeLayout>
 
 
-            </LinearLayout>
 
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="vertical"
+        >
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Full Name"
+
+            android:layout_marginBottom="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:drawableLeft="@drawable/user_small_icon"
+                android:drawablePadding="10dp"
+                android:text=""/>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:layout_marginBottom="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:drawableLeft="@drawable/username_small_icon"
+                android:drawablePadding="10dp"
+                android:enabled="false"
+                android:text=""/>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:layout_marginBottom="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:drawableLeft="@drawable/mail_small_icon"
+                android:drawablePadding="10dp"
+                android:text=""/>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/update_profile_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#00c1d6"
+        />
 
     </LinearLayout>
 

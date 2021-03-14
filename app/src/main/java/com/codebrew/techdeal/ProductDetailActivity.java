@@ -57,9 +57,8 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         recievedProductId = getIntent().getStringExtra("productId");
         setContentView(R.layout.activity_product_detail);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         carouseClicklView = findViewById(R.id.product_image_carousel);
         reviewListView = findViewById(R.id.review_list_view);
         reviewArrayList = new ArrayList<>();
@@ -315,4 +314,9 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

@@ -25,6 +25,7 @@ public class SellerLoginRegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_login_register);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         checkUserIsAlreadyASeller();
         businessName = findViewById(R.id.registered_business_name);
         gstNo = findViewById(R.id.gst_no);
@@ -92,9 +93,11 @@ public class SellerLoginRegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

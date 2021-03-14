@@ -13,7 +13,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder {
     private ImageView cartProdImage;
     private TextView cartTextName;
     private TextView cartTextPrice;
-    private FloatingActionButton removeItemFromCart;
+    private ImageView removeItemFromCart;
     public CartViewHolder(@NonNull View itemView) {
         super(itemView);
         cartProdImage = itemView.findViewById(R.id.cart_prod_image);
@@ -22,7 +22,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder {
         removeItemFromCart =  itemView.findViewById(R.id.remove_cart_btn);
     }
 
-    public FloatingActionButton getRemoveItemFromCart() {
+    public ImageView getRemoveItemFromCart() {
         return removeItemFromCart;
     }
 

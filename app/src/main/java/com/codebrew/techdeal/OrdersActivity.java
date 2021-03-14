@@ -30,9 +30,7 @@ public class OrdersActivity extends AppCompatActivity implements OrderRecyclerAd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         orderObjectId = new ArrayList<>();
 
         orderRecyclerView = findViewById(R.id.order_recycler_view);
@@ -54,6 +52,12 @@ public class OrdersActivity extends AppCompatActivity implements OrderRecyclerAd
                         orderRecyclerView.setAdapter(new OrderRecyclerAdapter(orderObjectId,OrdersActivity.this,OrdersActivity.this,orderStatus));
                         progressDialog.dismiss();
                     }
+                    else{
+                        progressDialog.dismiss();
+                    }
+                }
+                else {
+                    progressDialog.dismiss();
                 }
             }
         });
@@ -114,5 +118,11 @@ public class OrdersActivity extends AppCompatActivity implements OrderRecyclerAd
         intent.putExtra("orderObjectId",orderId);
         intent.putExtra("orderStatus",orderStatus);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

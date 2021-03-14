@@ -65,10 +65,10 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/seller_pending_orders_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:id="@+id/seller_pending_orders_recycler_view"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp" />
 
 
         </LinearLayout>
@@ -188,6 +188,33 @@
 
 
     </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Inventory"
+            android:gravity="center_horizontal"
+            android:paddingVertical="15dp"
+            android:textSize="16sp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/inventory_recycler_view"
+            />
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
 
 
 

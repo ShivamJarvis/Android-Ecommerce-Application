@@ -61,7 +61,6 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
         mProgressDialog.show();
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         nav = findViewById(R.id.nav_menu);
@@ -206,8 +205,6 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
             @Override
             public void done(List<ParseObject> allProducts, ParseException e) {
                 if(allProducts!=null) {
-
-
                     if (allProducts.size() > 0 && e == null) {
                         for (ParseObject product : allProducts) {
 

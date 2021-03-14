@@ -36,6 +36,7 @@
         <activity android:name="com.codebrew.techdeal.CategoryDetailActivity"
             android:screenOrientation="portrait"/>
         <activity android:name="com.codebrew.techdeal.ProductDetailActivity"
+
             android:screenOrientation="portrait"/>
         <activity android:name="com.codebrew.techdeal.ProfileActivity"
             android:screenOrientation="portrait"/>
@@ -64,7 +65,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_yyjcv3FMdG2nhN" />
+            android:value="rzp_test_raczRd7xDgFF9t" />
     </application>
 
 </manifest>

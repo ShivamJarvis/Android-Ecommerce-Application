@@ -40,35 +40,22 @@ public class SellerPendingOrderRecyclerAdapter extends RecyclerView.Adapter<Sell
     @Override
     public void onBindViewHolder(@NonNull SellerPendingOrderViewHolder holder, int position) {
 
-        ParseQuery<ParseObject> sellerParseQuery = ParseQuery.getQuery("Seller");
-        sellerParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        sellerParseQuery.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Orders");
+        parseQuery.whereEqualTo("objectId",orderNoList.get(position));
+
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> userObjects, ParseException userError) {
-                if(userError==null && userObjects!=null){
-                    String seller = userObjects.get(0).getString("seller");
-                    ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Orders");
-                    parseQuery.whereEqualTo("objectId",orderNoList.get(position));
-                    parseQuery.whereEqualTo("product_seller",seller);
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e==null && objects!=null){
+                    if(objects.size()>0){
 
-                    parseQuery.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> objects, ParseException e) {
-                            if(e==null && objects!=null){
-                                if(objects.size()>0){
-
-                                        holder.getOrderNo().setText("#ORDER : "+(position+1));
-                                        holder.getOrderStatus().setText(objects.get(0).getString("order_status"));
-                                        holder.getPendingOrderBtn().setVisibility(View.VISIBLE);
+                            holder.getOrderNo().setText("#ORDER : "+(position+1));
+                            holder.getOrderStatus().setText(objects.get(0).getString("order_status"));
+                            holder.getPendingOrderBtn().setVisibility(View.VISIBLE);
 
 
 
-                                }
-                            }
-                        }
-                    });
-
-
+                    }
                 }
             }
         });

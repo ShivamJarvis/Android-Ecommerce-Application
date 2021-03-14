@@ -18,9 +18,7 @@ public class PaymentStatusActivtity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_status_activtity);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+
         paymentStatus = findViewById(R.id.payment_status);
         paymentStatusImage1 = findViewById(R.id.payment_status_image);
         paymentStatusImage2 = findViewById(R.id.second_image_decision);

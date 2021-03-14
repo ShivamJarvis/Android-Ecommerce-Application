@@ -36,9 +36,8 @@ public class SearchFoundActivity extends AppCompatActivity implements SearchRecy
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_found);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         recievedSearchKey = getIntent().getStringExtra("searchKey");
         productNames = new ArrayList<>();
         mRecyclerView = findViewById(R.id.search_recycler_view);
@@ -157,5 +156,11 @@ public class SearchFoundActivity extends AppCompatActivity implements SearchRecy
                 builder.create().show();
                 break;
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

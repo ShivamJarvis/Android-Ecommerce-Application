@@ -36,9 +36,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_detail);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         categoryName = getIntent().getStringExtra("categoryName");
         prodImages = new ArrayList<>();
@@ -147,7 +145,9 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

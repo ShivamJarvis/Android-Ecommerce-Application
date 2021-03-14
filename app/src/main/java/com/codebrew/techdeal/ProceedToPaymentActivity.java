@@ -41,9 +41,7 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proceed_to_payment);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.logo);
-        setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Checkout.preload(getApplicationContext());
         try{
             recieveBuyBowProduct = getIntent().getStringExtra("buy_now_product");
@@ -120,7 +118,7 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                             }
 
                             Checkout checkout = new Checkout();
-                            checkout.setKeyID("rzp_test_FS9yTOIfYNWwox");
+                            checkout.setKeyID("rzp_test_raczRd7xDgFF9t");
                             try {
                                 JSONObject options = new JSONObject();
                                 options.put("name", "TechyTech");
@@ -134,8 +132,14 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                         }
                         if(cashRB.isChecked()){
                             int cashPrice = 300;
+                            if(standardDeliveryRB.isChecked()){
+                                cashPrice+=100;
+                            }
+                            else if(expressDeliveryRB.isChecked()){
+                                cashPrice+=500;
+                            }
                             Checkout checkout = new Checkout();
-                            checkout.setKeyID("rzp_test_FS9yTOIfYNWwox");
+                            checkout.setKeyID("rzp_test_raczRd7xDgFF9t");
                             try {
                                 JSONObject options = new JSONObject();
                                 options.put("name", "TechyTech");
@@ -178,7 +182,7 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                         }
 
                         Checkout checkout = new Checkout();
-                        checkout.setKeyID("rzp_test_FS9yTOIfYNWwox");
+                        checkout.setKeyID("rzp_test_raczRd7xDgFF9t");
                         try {
                             JSONObject options = new JSONObject();
                             options.put("name", "TechyTech");
@@ -192,8 +196,14 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                     }
                     if(cashRB.isChecked()){
                         int cashPrice = 300;
+                        if(standardDeliveryRB.isChecked()){
+                            cashPrice+=100;
+                        }
+                        else if(expressDeliveryRB.isChecked()){
+                            cashPrice+=500;
+                        }
                         Checkout checkout = new Checkout();
-                        checkout.setKeyID("rzp_test_FS9yTOIfYNWwox");
+                        checkout.setKeyID("rzp_test_raczRd7xDgFF9t");
                         try {
                             JSONObject options = new JSONObject();
                             options.put("name", "TechyTech");
@@ -223,10 +233,6 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
 
         if(recieveBuyBowProduct != null) {
             if (recieveBuyBowProduct.equals("") == false) {
-                ArrayList<String> product = new ArrayList<>();
-                ArrayList<String> productSeller = new ArrayList<>();
-                product.add(recieveBuyBowProduct);
-                productSeller.add(recievedSellerName);
                 ParseQuery<ParseObject> buyNowProductQuery = ParseQuery.getQuery("Product");
                 buyNowProductQuery.whereEqualTo("objectId", recieveBuyBowProduct);
                 buyNowProductQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -259,9 +265,9 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                                 paymentMode = "online";
                             }
                             newOrder.put("total_amount", totalPrice);
-                            newOrder.put("products", product);
+                            newOrder.put("products", recieveBuyBowProduct);
                             newOrder.put("order_status","Order Placed");
-                            newOrder.put("product_seller", productSeller);
+                            newOrder.put("product_seller", recievedSellerName);
                             newOrder.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -271,6 +277,11 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
                                         progressDialog.dismiss();
                                         startActivity(intent1);
                                         finish();
+                                    }
+                                    else{
+                                        progressDialog.dismiss();
+                                        Toast.makeText(ProceedToPaymentActivity.this,e.toString(),Toast.LENGTH_LONG).show();
+                                        Log.i("MYMSG",e.toString());
                                     }
                                 }
                             });
@@ -368,5 +379,11 @@ public class ProceedToPaymentActivity extends AppCompatActivity implements Payme
         startActivity(intent2);
         finish();
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }
