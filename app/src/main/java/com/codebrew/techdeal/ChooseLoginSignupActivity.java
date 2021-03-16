@@ -1,27 +1,16 @@
 package com.codebrew.techdeal;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-
 import com.parse.ParseUser;
-
 public class ChooseLoginSignupActivity extends AppCompatActivity implements View.OnClickListener {
     private Button goToLoginButton, goToSignupButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        getSupportActionBar().hide();
         setContentView(R.layout.activity_choose_login_signup);
         goToLoginButton = findViewById(R.id.go_login_btn);
         goToSignupButton = findViewById(R.id.go_signup_btn);
@@ -33,9 +22,7 @@ public class ChooseLoginSignupActivity extends AppCompatActivity implements View
             startActivity(intent);
             finish();
         }
-
     }
-
     @Override
     public void onClick(View view) {
 

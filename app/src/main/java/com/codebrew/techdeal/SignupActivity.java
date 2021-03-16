@@ -5,13 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.Toast;
-
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -22,12 +19,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        getSupportActionBar().hide();
-
         setContentView(R.layout.activity_signup);
         usernameSignup = findViewById(R.id.username_register);
         nameSignup = findViewById(R.id.name_register);
@@ -41,6 +32,28 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+
+        if(usernameSignup.getText().toString().equals("")==true)
+        {
+            Snackbar.make(v,"Username is required",Snackbar.LENGTH_LONG).show();
+            return;
+        }
+          if(emailSignup.getText().toString().equals("")==true)
+        {
+            Snackbar.make(v,"Email is required",Snackbar.LENGTH_LONG).show();
+            return;
+        }
+          if(passSignup.getText().toString().equals("")==true)
+        {
+            Snackbar.make(v,"Password is required",Snackbar.LENGTH_LONG).show();
+            return;
+        }
+          if(nameSignup.getText().toString().equals("")==true)
+        {
+            Snackbar.make(v,"Name is required",Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         ParseUser newUser = new ParseUser();
 
         newUser.setUsername(usernameSignup.getText().toString());
@@ -58,6 +71,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     Intent intent = new Intent(SignupActivity.this,HomePageActivity.class);
                     startActivity(intent);
                     finish();
+                }
+                else{
+                    Snackbar.make(v,"Something Went Wrong",Snackbar.LENGTH_LONG).show();
                 }
             }
         });

@@ -32,6 +32,7 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
     private TextView totalMrp,totalDiscount,netAmount,totalMrpTxt,totalDiscTxt,netAmtTxt;
     private int totalAmount=0,totalDisc=0,totalNetAmount=0;
     private boolean isCartEmpty = false;
+    private Button continueShoppingBtn, proceedToCheckoutBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +40,8 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         prodId = new ArrayList<>();
         totalMrp = findViewById(R.id.total_mrp);
-        Button continueShoppingBtn = findViewById(R.id.continue_shopping_btn);
-        Button proceedToCheckoutBtn = findViewById(R.id.proceed_checkout_btn);
+        continueShoppingBtn = findViewById(R.id.continue_shopping_btn);
+        proceedToCheckoutBtn = findViewById(R.id.proceed_checkout_btn);
         continueShoppingBtn.setOnClickListener(this);
         proceedToCheckoutBtn.setOnClickListener(this);
         totalDiscTxt = findViewById(R.id.tot_disc_txt);
@@ -162,17 +163,32 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
                                 public void done(List<ParseObject> pObjects, ParseException e) {
                                     if(e==null){
                                         for(ParseObject product : pObjects){
-
+                                            if(product.getNumber("stock").intValue()>0){
                                             totalAmount += product.getInt("mrp_price");
                                             totalDisc = (product.getInt("mrp_price") - Integer.parseInt(product.getString("our_price"))) + totalDisc;
                                             totalNetAmount += Integer.parseInt(product.getString("our_price"));
                                             prodId.add(product.getObjectId());
+                                            }
                                         }
                                         mRecyclerView.setAdapter(new CartRecyclerAdapter(CartActivity.this,prodId));
                                         totalDiscount.setText(totalDisc+"");
                                         totalMrp.setText(totalAmount+"");
                                         netAmount.setText(totalNetAmount+"");
                                         progressDialog.dismiss();
+
+                                        if(prodId.size()<=0)
+                                        {
+                                            Toast.makeText(CartActivity.this,"Cart is Empty",Toast.LENGTH_LONG).show();
+                                            totalMrp.setText("Cart is Empty");
+                                            isCartEmpty = true;
+                                            totalMrp.setTextSize(30.0f);
+                                            totalDiscount.setText("");
+                                            netAmount.setText("");
+                                            totalDiscTxt.setText("");
+                                            totalMrpTxt.setText("");
+                                            netAmtTxt.setText("");
+                                            proceedToCheckoutBtn.setVisibility(View.GONE);
+                                        }
 
                                     }
                                 }
@@ -191,6 +207,7 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
                         totalDiscTxt.setText("");
                         totalMrpTxt.setText("");
                         netAmtTxt.setText("");
+                        proceedToCheckoutBtn.setVisibility(View.GONE);
                         progressDialog.dismiss();
                     }
                     progressDialog.dismiss();
@@ -211,7 +228,7 @@ public class CartActivity extends AppCompatActivity implements CartRecyclerAdapt
                 finish();
                 break;
             case R.id.proceed_checkout_btn:
-                if(isCartEmpty){
+                if(isCartEmpty && Integer.parseInt(netAmount.getText().toString()) > 0){
                     Toast.makeText(CartActivity.this,"Sorry Cart is Empty",Toast.LENGTH_LONG).show();
                 }else {
                     Intent intent = new Intent(CartActivity.this,ProceedToCheckoutActivity.class);

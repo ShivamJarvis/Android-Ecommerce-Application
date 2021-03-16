@@ -193,6 +193,11 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
 
         <TextView
             android:layout_width="match_parent"
@@ -201,6 +206,7 @@
             android:gravity="center_horizontal"
             android:paddingVertical="15dp"
             android:textSize="16sp"
+
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -209,7 +215,7 @@
             android:id="@+id/inventory_recycler_view"
             />
 
-
+    </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

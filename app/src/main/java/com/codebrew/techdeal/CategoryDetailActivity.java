@@ -31,7 +31,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private ArrayList<String> prodPrices;
     private ArrayList<String> prodId;
     private RecyclerView mRecyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,16 +39,13 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
 
         categoryName = getIntent().getStringExtra("categoryName");
         prodImages = new ArrayList<>();
-//        Toast.makeText(this, categoryName, Toast.LENGTH_SHORT).show();
+
         prodNames = new ArrayList<>();
         prodPrices = new ArrayList<>();
         prodId = new ArrayList<>();
         mRecyclerView = findViewById(R.id.category_detail_recycler_view);
         updateProductList();
-
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(CategoryDetailActivity.this));
-
     }
 
 
@@ -74,22 +70,11 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
                                         Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
                                         prodImages.add(bitmap);
                                         mRecyclerView.setAdapter(new CategoryDetailRecyclerAdapter(prodImages,prodNames,prodPrices,prodId,CategoryDetailActivity.this));
-
                                     }
-
-
                                 }
-
                             });
-
                         }
                     }
-                    else{
-//                        Toast.makeText(CategoryDetailActivity.this,"No Object Found",Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-//                    Toast.makeText(CategoryDetailActivity.this,"Something Went Wrong",Toast.LENGTH_SHORT).show();
                 }
             }
         });

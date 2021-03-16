@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +29,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,8 +153,26 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
                         break;
 
                     case R.id.menu_seller_login_register:
-                        Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerLoginRegisterActivity.class);
-                        startActivity(sellerLoginRegisterIntent);
+                        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Seller");
+                        parseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+                        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> objects, ParseException e) {
+                                if(e==null)
+                                {
+                                    if(objects!=null)
+                                    {
+                                        Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerMainActivity.class);
+                                        startActivity(sellerLoginRegisterIntent);
+                                    }
+                                    else{
+                                        Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerLoginRegisterActivity.class);
+                                        startActivity(sellerLoginRegisterIntent);
+                                    }
+                                }
+                            }
+                        });
+
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
 

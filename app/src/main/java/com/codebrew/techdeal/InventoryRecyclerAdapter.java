@@ -21,10 +21,17 @@ import java.util.List;
 
 public class InventoryRecyclerAdapter extends RecyclerView.Adapter<InventoryViewHolder> {
     private ArrayList<String> objectIds;
-
-    public InventoryRecyclerAdapter(ArrayList<String> objectIds) {
-        this.objectIds = objectIds;
+    interface IsInventoryItemIsClicked{
+        void InventoryItemIsClicked(String objectId);
     }
+
+    public InventoryRecyclerAdapter(ArrayList<String> objectIds, IsInventoryItemIsClicked inventoryItemIsClicked) {
+        this.objectIds = objectIds;
+        this.inventoryItemIsClicked = inventoryItemIsClicked;
+    }
+
+    private IsInventoryItemIsClicked inventoryItemIsClicked;
+
 
     @NonNull
     @Override
@@ -58,10 +65,20 @@ public class InventoryRecyclerAdapter extends RecyclerView.Adapter<InventoryView
                                 }
                             }
                         });
+
                     }
                 }
             }
         });
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inventoryItemIsClicked.InventoryItemIsClicked(objectIds.get(position));
+            }
+        });
+
     }
 
     @Override

@@ -4,10 +4,8 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class CategoryDetailRecyclerAdapter extends RecyclerView.Adapter<CategoryDetailViewHolder> {

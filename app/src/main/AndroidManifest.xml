@@ -6,55 +6,75 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.codebrew.techdeal.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TechyTech">
-        <activity android:name="com.codebrew.techdeal.SeeCompleteOrderActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name="com.codebrew.techdeal.SellerMainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.SellerLoginRegisterActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.SearchFoundActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.SearchTypeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.ProductZoomImageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.OrderDetailsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.PaymentStatusActivtity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.ProceedToPaymentActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.ProceedToCheckoutActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.CategoryDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.ProductDetailActivity"
-
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.ProfileActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.OrdersActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.CartActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.HomePageActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.SignupActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.LoginActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.ChooseLoginSignupActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.codebrew.techdeal.MainActivity"
+        <activity android:name=".ManageInventory"></activity>
+        <activity
+            android:name=".SeeCompleteOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SellerMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SellerLoginRegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchFoundActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProductZoomImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrderDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PaymentStatusActivtity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProceedToPaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProceedToCheckoutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CategoryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProductDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrdersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HomePageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".SignupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ChooseLoginSignupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

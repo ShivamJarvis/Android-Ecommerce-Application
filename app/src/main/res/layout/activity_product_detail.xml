@@ -61,6 +61,18 @@
             android:textColor="#000"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Out Of Stock"
+            android:textColor="#ff0000"
+            android:textSize="22sp"
+            android:id="@+id/out_of_stock"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginVertical="15dp"
+            />
+
         <com.iarcuschin.simpleratingbar.SimpleRatingBar
             android:id="@+id/product_rating"
             android:layout_width="wrap_content"

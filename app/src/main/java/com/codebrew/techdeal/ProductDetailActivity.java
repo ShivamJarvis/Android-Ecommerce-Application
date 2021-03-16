@@ -37,7 +37,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private CarouselView carouselView;
     private String recievedProductId;
     public ArrayList<Bitmap> pImages;
-    private TextView productNameTextView,productDetailName,productPrice,noReview;
+    private TextView productNameTextView,productDetailName,productPrice,noReview,outOfStockText;
     private TextView productDetailMrp,productDetailOurPrice,productSeller,productDesc;
     private Button buyBtn,addCartBtn;
     private SimpleRatingBar simpleRatingBar;
@@ -45,7 +45,6 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private ListView reviewListView;
     private ArrayAdapter reviewArrayAdapter;
     private ArrayList<String> reviewArrayList;
-
 
     enum State{
         ADD,Go
@@ -79,11 +78,10 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         productDetailOurPrice = findViewById(R.id.product_detail_product_our_price);
         productSeller = findViewById(R.id.product_detail_seller_name);
         productDesc = findViewById(R.id.product_detail_desc);
-
-
+        outOfStockText = findViewById(R.id.out_of_stock);
+        checkProductIsOutOfStock();
         checkProductIsAlreadyInCart();
         showProductDetails();
-
 
         ParseQuery<ParseObject> parseQueryForImages = ParseQuery.getQuery("ProductImages");
         parseQueryForImages.whereEqualTo("product_id", recievedProductId);
@@ -134,6 +132,30 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
 
     }
 
+    private void checkProductIsOutOfStock() {
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Product");
+        parseQuery.whereEqualTo("objectId",recievedProductId);
+
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(objects!=null && e == null && objects.size()>0)
+                {
+                    if(objects.get(0).getNumber("stock").intValue()>0){
+                        outOfStockText.setVisibility(View.GONE);
+                        buyBtn.setVisibility(View.VISIBLE);
+                        addCartBtn.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        outOfStockText.setVisibility(View.VISIBLE);
+                        buyBtn.setVisibility(View.GONE);
+                        addCartBtn.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+    }
+
 
     private void checkProductIsAlreadyInCart(){
         ParseQuery<ParseObject> isInCartQuery = ParseQuery.getQuery("Cart");
@@ -148,9 +170,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
-
     }
-
 
     private void showProductDetails(){
         ParseQuery<ParseObject> productDetailQuery = ParseQuery.getQuery("Product");

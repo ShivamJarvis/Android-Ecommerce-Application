@@ -2,19 +2,20 @@ package com.codebrew.techdeal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -25,8 +26,9 @@ import java.util.List;
 public class OrderDetailsActivity extends AppCompatActivity {
 
     private CardView reviewCardView;
-    private TextView paymentMode,deliveryMode,orderAmount,orderDate,deliveryCharges,netAmountPaid;
+    private TextView paymentMode,deliveryMode,orderAmount,orderDate,deliveryCharges,netAmountPaid, productName;
     private EditText customerReview;
+    private ImageView productImage;
     private Button customerReviewSubmitButton;
 
     @Override
@@ -36,14 +38,15 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         StateProgressBar stateProgressBar;
-        RecyclerView orderDetailProductRecyclerView;
+
         TextView topOrderIdDisplayText;
 
         String recievedOrderId = getIntent().getStringExtra("orderObjectId");
         reviewCardView = findViewById(R.id.review_card);
         customerReview = findViewById(R.id.customer_review);
         customerReviewSubmitButton = findViewById(R.id.customer_review_submit_button);
-
+        productImage = findViewById(R.id.order_details_product_image_viewholder);
+        productName = findViewById(R.id.order_details_product_viewholder);
 
         topOrderIdDisplayText = findViewById(R.id.order_details_id);
         topOrderIdDisplayText.setText(topOrderIdDisplayText.getText().toString()+recievedOrderId);
@@ -56,7 +59,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
         deliveryCharges = findViewById(R.id.delivery_charges);
         netAmountPaid = findViewById(R.id.net_amount);
 
-        orderDetailProductRecyclerView = findViewById(R.id.order_details_recyclerview);
         String state = getIntent().getStringExtra("orderStatus");
 
         if(state.equals("Order Placed")){
@@ -123,14 +125,34 @@ public class OrderDetailsActivity extends AppCompatActivity {
                         }
                     }
 
+                    ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("Product");
+                    productQuery.whereEqualTo("objectId",object.getString("products"));
+                    productQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> pobjects, ParseException e) {
+                            if(e==null && pobjects!=null)
+                            {
+                                productName.setText(pobjects.get(0).getString("product_name"));
+                                ParseFile image = pobjects.get(0).getParseFile("product_image");
+                                image.getDataInBackground(new GetDataCallback() {
+                                    @Override
+                                    public void done(byte[] data, ParseException e) {
+                                        if(data!=null && e==null)
+                                        {
+                                            Bitmap imageBitmap = BitmapFactory.decodeByteArray(data,0,data.length);
+                                            productImage.setImageBitmap(imageBitmap);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
 
                     orderDate.setText(object.getCreatedAt().toString().substring(0,11));
-                    orderDetailProductRecyclerView.setAdapter(new OrderDetailsRecyclerAdapter(object.getString("products")+""));
 
                 }
             }
         });
-        orderDetailProductRecyclerView.setLayoutManager(new LinearLayoutManager(OrderDetailsActivity.this));
 
         checkUserAlreadyGiveReview();
 

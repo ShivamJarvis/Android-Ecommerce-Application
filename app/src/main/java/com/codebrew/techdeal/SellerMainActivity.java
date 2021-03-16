@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-public class SellerMainActivity extends AppCompatActivity implements SellerPendingOrderRecyclerAdapter.SeeOrderButtonIsClickedInterface {
+public class SellerMainActivity extends AppCompatActivity implements SellerPendingOrderRecyclerAdapter.SeeOrderButtonIsClickedInterface, InventoryRecyclerAdapter.IsInventoryItemIsClicked {
     private TextView sellerWelcomeText,sellerIncome,sellerCharges,sellerNetIncome;
     private RecyclerView pendingOrdersRecyclerView,inventoryRecyclerView;
     private Button refreshButtonList;
@@ -41,8 +41,7 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
         sellerNetIncome = findViewById(R.id.seller_net_income);
         refreshButtonList = findViewById(R.id.refresh_button_list);
         inventoryRecyclerView = findViewById(R.id.inventory_recycler_view);
-        sellerName = "";
-        getInventoryObjectIds();
+        inventoryObjectIds = new ArrayList<>();
         calculateSellerMonthlyIncome();
         objectsIds = new ArrayList<>();
         ParseQuery<ParseObject> parseSellerParseQuery = ParseQuery.getQuery("Seller");
@@ -59,7 +58,9 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
                 }
             }
         });
-
+        sellerName = "";
+        getInventoryObjectIds();
+        inventoryRecyclerView.setLayoutManager(new LinearLayoutManager(SellerMainActivity.this));
         pendingOrdersRecyclerView = findViewById(R.id.seller_pending_orders_recycler_view);
         getObjectsIds();
         pendingOrdersRecyclerView.setLayoutManager(new LinearLayoutManager(SellerMainActivity.this));
@@ -74,8 +75,6 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
                 else{
                     getObjectsIds();
                 }
-
-
             }
         });
 
@@ -83,23 +82,36 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
     }
 
     private void getInventoryObjectIds() {
-        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Product");
-//        parseQuery.whereEqualTo("seller",sellerName);
-        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+
+        ParseQuery<ParseObject> sellerQuery = ParseQuery.getQuery("Seller");
+        sellerQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
+        sellerQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if(objects!=null && e == null)
+                if(e==null)
                 {
-                    for(ParseObject object : objects)
-                    {
-                        inventoryObjectIds.add(object.getObjectId());
-                    }
-                    inventoryRecyclerView.setAdapter(new InventoryRecyclerAdapter(inventoryObjectIds));
-                    inventoryRecyclerView.setLayoutManager(new LinearLayoutManager(SellerMainActivity.this));
+                    ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Product");
+                    parseQuery.whereEqualTo("seller",objects.get(0).getString("seller"));
+                    parseQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> objects, ParseException e) {
+                            if(objects!=null && e == null)
+                            {
+                                for(ParseObject object : objects)
+                                {
+                                    inventoryObjectIds.add(object.getObjectId());
+                                }
+                                inventoryRecyclerView.setAdapter(new InventoryRecyclerAdapter(inventoryObjectIds,SellerMainActivity.this));
 
+                            }
+                        }
+                    });
                 }
             }
         });
+
+
+
 
     }
 
@@ -181,6 +193,15 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
 
             }
         });
+    }
+
+
+
+    @Override
+    public void InventoryItemIsClicked(String objectId) {
+        Intent intent = new Intent(SellerMainActivity.this,ManageInventory.class);
+        intent.putExtra("productId",objectId);
+        startActivity(intent);
     }
 
     @Override
