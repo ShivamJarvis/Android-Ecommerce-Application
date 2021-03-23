@@ -26,7 +26,7 @@ public class SellerLoginRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_login_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        checkUserIsAlreadyASeller();
+
         businessName = findViewById(R.id.registered_business_name);
         gstNo = findViewById(R.id.gst_no);
         aadharNo = findViewById(R.id.aadhar_no);
@@ -43,28 +43,6 @@ public class SellerLoginRegisterActivity extends AppCompatActivity {
     }
 
 
-
-    private void checkUserIsAlreadyASeller(){
-        ParseQuery<ParseObject> sellerParseQuery = ParseQuery.getQuery("Seller");
-        sellerParseQuery.whereEqualTo("username",ParseUser.getCurrentUser().getUsername());
-        sellerParseQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(objects!=null && e==null){
-                    if(objects.size()>0){
-                        Intent intentToSellerMainActivity = new Intent(SellerLoginRegisterActivity.this,
-                                SellerMainActivity.class);
-                        startActivity(intentToSellerMainActivity);
-                        finish();
-                    }
-                }
-            }
-        });
-
-    }
-
-
-
     private void registerNewSellerAccount(){
 
         if(businessName.getText().toString().equals("") ||
@@ -74,6 +52,7 @@ public class SellerLoginRegisterActivity extends AppCompatActivity {
             Toast.makeText(SellerLoginRegisterActivity.this,
                     "All Fields Are Necessary to Fill",
                     Toast.LENGTH_LONG).show();
+            return;
         }
 
         ParseObject newSeller = new ParseObject("Seller");
@@ -88,6 +67,8 @@ public class SellerLoginRegisterActivity extends AppCompatActivity {
                 if(e==null){
                     Intent intentToSellerMainActivity = new Intent(SellerLoginRegisterActivity.this,
                             SellerMainActivity.class);
+                    intentToSellerMainActivity.putExtra("sellerName",businessName.getText().toString());
+
                     startActivity(intentToSellerMainActivity);
                     finish();
                 }

@@ -34,7 +34,7 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_main);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sellerWelcomeText = findViewById(R.id.seller_welcome_text);
         sellerIncome = findViewById(R.id.seller_income);
         sellerCharges = findViewById(R.id.seller_charges);
@@ -53,12 +53,11 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
                     if(objects.size()>0){
                         sellerName = objects.get(0).getString("seller");
                         sellerWelcomeText.setText(sellerWelcomeText.getText()+objects.get(0).getString("seller"));
-
                     }
                 }
             }
         });
-        sellerName = "";
+        sellerName = getIntent().getStringExtra("sellerName");
         getInventoryObjectIds();
         inventoryRecyclerView.setLayoutManager(new LinearLayoutManager(SellerMainActivity.this));
         pendingOrdersRecyclerView = findViewById(R.id.seller_pending_orders_recycler_view);
@@ -77,7 +76,6 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
                 }
             }
         });
-
 
     }
 
@@ -110,12 +108,7 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
             }
         });
 
-
-
-
     }
-
-
     private void getObjectsIds(){
         ProgressDialog progressDialog = new ProgressDialog(SellerMainActivity.this);
         progressDialog.setMessage("Please Wait");
@@ -126,7 +119,7 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Orders");
         parseQuery.whereNotEqualTo("order_status","Order Delivered");
         parseQuery.whereEqualTo("product_seller",sellerName);
-        Toast.makeText(SellerMainActivity.this,sellerName,Toast.LENGTH_SHORT).show();
+
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -145,7 +138,6 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
         });
     }
 
-
     @Override
     public void SeeOrderButtonIsClicked(String orderNo) {
         Intent intent = new Intent(SellerMainActivity.this,SeeCompleteOrderActivity.class);
@@ -153,7 +145,6 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
         startActivity(intent);
         finish();
     }
-
 
     private void calculateSellerMonthlyIncome(){
         ParseQuery<ParseObject> sellerParseQuery = ParseQuery.getQuery("Seller");

@@ -36,8 +36,6 @@ public class SearchFoundActivity extends AppCompatActivity implements SearchRecy
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_found);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         recievedSearchKey = getIntent().getStringExtra("searchKey");
         productNames = new ArrayList<>();
         mRecyclerView = findViewById(R.id.search_recycler_view);

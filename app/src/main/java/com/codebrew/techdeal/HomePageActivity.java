@@ -163,6 +163,7 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
                                     if(objects!=null)
                                     {
                                         Intent sellerLoginRegisterIntent = new Intent(HomePageActivity.this,SellerMainActivity.class);
+                                        sellerLoginRegisterIntent.putExtra("sellerName",objects.get(0).getString("seller"));
                                         startActivity(sellerLoginRegisterIntent);
                                     }
                                     else{

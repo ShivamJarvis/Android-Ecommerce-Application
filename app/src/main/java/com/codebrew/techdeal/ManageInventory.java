@@ -33,6 +33,7 @@ public class ManageInventory extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_inventory);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         productId = getIntent().getStringExtra("productId");
         productImage = findViewById(R.id.see_product_image);
         productName = findViewById(R.id.see_product_name);
