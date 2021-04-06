@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:id="@+id/drawer_layout"
     tools:openDrawer="start"
+
     tools:context=".HomePageActivity"
     android:layout_height="match_parent">
 
@@ -20,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="TechDeal"
+
             app:titleTextColor="@android:color/white"
             android:background="@color/primaryColor"
             />

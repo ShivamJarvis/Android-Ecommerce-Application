@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,6 +62,8 @@ public class HomePageActivity extends AppCompatActivity implements FeaturedProdu
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Window window = this.getWindow();
+        window.setStatusBarColor(getColor(R.color.primaryDarkColor));
 
         nav = findViewById(R.id.nav_menu);
         drawerLayout = findViewById(R.id.drawer_layout);

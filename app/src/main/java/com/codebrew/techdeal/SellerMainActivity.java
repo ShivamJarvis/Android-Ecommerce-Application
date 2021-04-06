@@ -35,6 +35,7 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        sellerName = getIntent().getStringExtra("sellerName");
         sellerWelcomeText = findViewById(R.id.seller_welcome_text);
         sellerIncome = findViewById(R.id.seller_income);
         sellerCharges = findViewById(R.id.seller_charges);
@@ -57,7 +58,7 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
                 }
             }
         });
-        sellerName = getIntent().getStringExtra("sellerName");
+
         getInventoryObjectIds();
         inventoryRecyclerView.setLayoutManager(new LinearLayoutManager(SellerMainActivity.this));
         pendingOrdersRecyclerView = findViewById(R.id.seller_pending_orders_recycler_view);
@@ -76,7 +77,6 @@ public class SellerMainActivity extends AppCompatActivity implements SellerPendi
                 }
             }
         });
-
     }
 
     private void getInventoryObjectIds() {

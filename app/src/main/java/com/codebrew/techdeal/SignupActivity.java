@@ -54,6 +54,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
+
         ParseUser newUser = new ParseUser();
 
         newUser.setUsername(usernameSignup.getText().toString());
